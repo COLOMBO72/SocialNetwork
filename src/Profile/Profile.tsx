@@ -3,23 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../Redux/store';
 import { useAppSelector } from '../Redux/store';
 import { useAuth } from '../hooks/use-auth';
-import { selectUser, signOut } from '../Redux/user/userSlice';
+import { selectUser } from '../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
 
 const Profile: React.FC = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState('');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isAuth } = useAuth();
-  const { username, email, location, aboutMe, photoURL, status, YO } =
-    useAppSelector(selectUser);
+  const { username, location, aboutMe, photoURL, status, YO } = useAppSelector(selectUser);
   //Функция. При нажатии делает диспатч в слайс, который воспроизводит actions
-  const onClickRemove = () => {
-    dispatch(signOut())
-    navigate('/login');
-  };
-  const onclickcheck = () => {
-    console.log(username)
-  };
 
   React.useEffect(() => {
     if (isAuth == false) {
@@ -28,21 +22,36 @@ const Profile: React.FC = () => {
   }, [isAuth]);
   return (
     <div className={stylesProfile.profile_wrapper}>
+      {/* {loading ? <Skeleton/> : ''}
+      {errorMsg && <div className="error">{errorMsg}</div>} */}
       <div className={stylesProfile.profile_block}>
         <div className={stylesProfile.ava_wrapper}>
           <img src={photoURL ? photoURL : 'assets/null_ava.jpg'} />
         </div>
         <div className={stylesProfile.profile_info_block}>
+          <div className={stylesProfile.namewrap}>
+            <span>{username}</span>
+          </div>
           <span>{status}</span>
-          <span>My name: {username}</span>
-          <span>Where I am: {location}</span>
-          <span>About me: {aboutMe}</span>
-          <span>Date of birthday: {YO}</span>
-          <button onClick={onClickRemove}>Sign out from {email}</button>
+          <span> {location}</span>
+          <span>{YO}</span>
+        </div>
+        <div className={stylesProfile.aboutme_block}>
+          <div className={stylesProfile.aboutme_wrap}>
+            <span>About me</span>
+          </div>
+          <span>{aboutMe}</span>
+          <span>My interests in coding</span>
+        </div>
+        <div className={stylesProfile.buttons}>
+          <button>Add to friends</button>
+          <button>Delete from friends</button>
+          <button>Edit profile</button>
+          <button>Send message</button>
         </div>
       </div>
       <div className={stylesProfile.photos_block}>
-        <img onClick={onclickcheck} src="/assets/zuckerberg.jpg" width={150} height={150} />
+        <img src="/assets/zuckerberg.jpg" width={150} height={150} />
         <img src="/assets/durov.jpeg" width={150} height={150} />
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-interface State {
+export interface State {
   uid: string;
   username: string;
   email: string;
@@ -11,14 +11,8 @@ interface State {
   status: string;
   YO: string;
   token: string;
-  loading: Loading;
 }
 
-export enum Loading {
-  PENDING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
 
 const initialState: State = {
   uid: '',
@@ -30,7 +24,6 @@ const initialState: State = {
   status: '',
   YO: '',
   token: '',
-  loading: Loading.PENDING,
 };
 
 export const userSlice = createSlice({
@@ -61,7 +54,7 @@ export const userSlice = createSlice({
       state.username = '';
     },
     updateUser(state) {
-      
+
     }
   },
 });

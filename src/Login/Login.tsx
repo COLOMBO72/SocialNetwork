@@ -9,6 +9,8 @@ import stylesLogin from './Login.module.scss';
 import { doc, getDoc } from 'firebase/firestore';
 
 const Login: React.FC = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState('');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isAuth } = useAuth();
@@ -22,6 +24,7 @@ const Login: React.FC = () => {
     } else {
       try {
         // Асинхронная функция firebase которая логинит пользователя.
+        setLoading(true);
         let auth = await signInUser(email, password);
         const user = auth.user;
         // Асинхронная функция вызывающая базу данных users.
@@ -41,13 +44,16 @@ const Login: React.FC = () => {
               username: docSnap.data().username,
             }),
           );
+          setLoading(false);
         } else {
           console.error();
+          setErrorMsg('Oops, something with login went wrong...');
         }
         // Перевод на страницу profile.
         navigate('/profile');
       } catch (error) {
         console.error();
+        setErrorMsg('Oops, something with login went wrong...');
       }
     }
   };
@@ -58,6 +64,8 @@ const Login: React.FC = () => {
   }, [isAuth]);
   return (
     <div className={stylesLogin.login_page_Wrapper}>
+      {/* {loading ? <Loading /> : ''} */}
+      {errorMsg && <div className="error">{errorMsg}</div>}
       <h3>Welcome!</h3>
       <FormLogin handleClick={handleLogin} />
     </div>

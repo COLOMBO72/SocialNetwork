@@ -1,56 +1,100 @@
 .profile_wrapper{
   display: flex;
   flex-direction: column;
-  width: 800px;
-  border-radius: 10px;
-  background-color: rgb(255, 255, 255);
-  padding: 50px;
-  box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.5);
+  
+  align-items: center;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  background-color: white;
+  width: 100%;
   .photos_block{
-    margin-top: 30px;
-    margin-bottom: 30px;
-    background-color: white;
     border-radius: 5px;
-    border:solid 2px;
-    border-color: rgb(161, 193, 207);
     padding: 20px;
+    margin-bottom: 20px;
     justify-content: center;
+    background-color: rgb(253, 253, 253);
     display: flex;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
+    width: 50%;
     img{
       margin: 10px;
     }
   }
   .profile_block{
+    border-bottom: 1px solid;
+    margin-bottom: 20px;
     display: flex;
-    .ava_wrapper{
-      width: 155px;
-      border-radius: 20px;
-      height: 155px;
-      background-color: rgb(228, 243, 255);
-      align-items: center;
-      justify-content: center;
+    padding: 20px;
+    justify-content: space-around;
+    .buttons{
       display: flex;
-      transition: 0.2s;
-      &:hover{
-        background-color: rgb(212, 238, 212);
-        transition: 0.2s
+      flex-direction: column;
+      button {
+        margin: 10px;
+        background-color: #FFFFFF;
+        border: 1px solid rgb(209,213,219);
+        border-radius: .5rem;
+        box-sizing: border-box;
+        color: #111827;
+        font-weight: 600;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none #D1D5DB solid;
+        text-decoration-thickness: auto;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
       }
+      button:hover {
+        background-color: rgb(249,250,251);
+      }
+      button:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+      button:focus-visible {
+        box-shadow: none;
+      }
+    }
+    .aboutme_block{
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      .aboutme_wrap{
+        padding: 5px;
+        border-bottom: 1px solid;
+        text-align: center;
+        margin-bottom: 10px;
+        span{
+          font-size: 20px;
+        }
+      }
+    }
+    .ava_wrapper{
       img{
-        border-radius: 20px;
-        width: 150px;
-        height: 150px;
+        width: 200px;
+        height: 200px;
+        border-radius: 10px;
       }
     }
     .profile_info_block{
       display: flex;
       flex-direction: column;
       margin-left: 50px;
-      
+      .namewrap{
+        padding: 5px;
+        border-bottom: 1px solid;
+        text-align: center;
+        margin-bottom: 10px;
+        span{
+          font-size: 20px;
+        }
+      }
       span{
         margin: 2px;
         font-size: 18px;
-        
       }
     }
   }
