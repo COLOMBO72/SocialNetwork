@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setUser } from '../Redux/user/userSlice';
-import { useAppDispatch} from '../Redux/store';
+import { selectUser, signIn } from '../Redux/user/userSlice';
+import { useAppDispatch, useAppSelector } from '../Redux/store';
 import FormLogin from './FormLogin';
-import { signInUser } from '../firebase';
+import { db, signInUser } from '../firebase';
 import { useAuth } from '../hooks/use-auth';
 import stylesLogin from './Login.module.scss';
-import { getDatabase, ref, get, child } from 'firebase/database';
+import { doc, getDoc } from 'firebase/firestore';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -16,8 +16,6 @@ const Login: React.FC = () => {
   // Функция. Вызывается при нажатии, принимает в себя value инпутов из FormLogin.
   const handleLogin = async (email: string, password: string) => {
     // Инициализируем метод firebase который показывает базу данных.
-    const db = getDatabase();
-    const dbref = ref(db);
     if (!email || !password) {
       alert('Enter email or password');
       return;
@@ -28,26 +26,24 @@ const Login: React.FC = () => {
         const user = auth.user;
         // Асинхронная функция вызывающая базу данных users.
         // Диспатчит в store значения из базы данных.
-        const request = await get(child(dbref, 'users/' + user.uid));
-        if (request.exists()) {
+        const docSnap = await getDoc(doc(db, 'users', user.uid));
+        if (docSnap.exists()) {
           dispatch(
-            setUser({
-              name: request.val().username,
-              location: request.val().location,
-              photoURL: request.val().photoURL,
-              status: request.val().status,
-              old: request.val().YO,
-              aboutMe: request.val().aboutMe,
-              email: request.val().email,
-              id: request.val().uid,
-              token: request.val().refreshToken,
+            signIn({
+              uid: docSnap.data().uid,
+              status: docSnap.data().status,
+              location: docSnap.data().location,
+              token: docSnap.data().token,
+              email: docSnap.data().email,
+              YO: docSnap.data().YO,
+              photoURL: docSnap.data().photoURL,
+              aboutMe: docSnap.data().aboutMe,
+              username: docSnap.data().username,
             }),
           );
         } else {
           console.error();
         }
-        console.log(request.val())
-        console.log(user)
         // Перевод на страницу profile.
         navigate('/profile');
       } catch (error) {
@@ -63,7 +59,7 @@ const Login: React.FC = () => {
   return (
     <div className={stylesLogin.login_page_Wrapper}>
       <h3>Welcome!</h3>
-      <FormLogin title="sign in" handleClick={handleLogin} />
+      <FormLogin handleClick={handleLogin} />
     </div>
   );
 };

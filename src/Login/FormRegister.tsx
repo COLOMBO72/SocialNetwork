@@ -6,7 +6,7 @@ const FormRegister = ({ handleClick }) => {
   const [email, setEmail] = React.useState('');
   const [pass, setPass] = React.useState('');
   const [name, setName] = React.useState('');
-  const [country, setCountry] = React.useState('');
+  const [locationUser, setLocationUser] = React.useState('');
   const [old, setOld] = React.useState('');
   return (
     <div className={stylesLogin.login_block}>
@@ -36,11 +36,11 @@ const FormRegister = ({ handleClick }) => {
         />
       </div>
       <div className={stylesLogin.input}>
-        <span>Country</span>
+        <span>Location</span>
         <input
-          type="country"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
+          type="location"
+          value={locationUser}
+          onChange={(e) => setLocationUser(e.target.value)}
         />
       </div>
       <div className={stylesLogin.input}>
@@ -51,7 +51,7 @@ const FormRegister = ({ handleClick }) => {
           onChange={(e) => setOld(e.target.value)}
         />
       </div>
-      <button onClick={() => handleClick(email, pass,name,country,old)}>Sign Up</button>
+      <button onClick={() => handleClick(email, pass,name,locationUser,old)}>Sign Up</button>
       <div className={stylesLogin.link}>
         <span>Already have account?</span>
         <Link to="/login">Sign in! </Link>

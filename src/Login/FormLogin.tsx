@@ -2,7 +2,7 @@ import React from 'react';
 import stylesLogin from './Login.module.scss';
 import { Link } from 'react-router-dom';
 
-const FormLogin = ({ title, handleClick }) => {
+const FormLogin = ({ handleClick }) => {
   const [email, setEmail] = React.useState('');
   const [pass, setPass] = React.useState('');
   return (
@@ -24,7 +24,7 @@ const FormLogin = ({ title, handleClick }) => {
           onChange={(e) => {setPass(e.target.value)}}
         />
       </div>
-      <button onClick={() => handleClick(email, pass)}>{title}</button>
+      <button onClick={() => handleClick(email, pass)}>Sign in</button>
       <div>
         <input type="checkbox"/>
         <span>remember me</span>

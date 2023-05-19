@@ -1,59 +1,122 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 interface State {
-  email: string,
-  token: string,
-  id: number,
-  name: string,
-  location:string;
+  uid: string;
+  username: string;
+  email: string;
+  location: string;
+  aboutMe: string;
   photoURL: string;
   status: string;
-  old:string;
-  aboutMe:string;
+  YO: string;
+  token: string;
+  loading: Loading;
 }
 
-const initialState:State = {
-  email: localStorage.email,
-  token: localStorage.accessToken,
-  id: null,
-  name: localStorage.name,
-  location: localStorage.location,
-  photoURL: localStorage.photoURL,
-  status: localStorage.status,
-  old: localStorage.old,
-  aboutMe: localStorage.aboutMe,
+export enum Loading {
+  PENDING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error',
 }
+
+const initialState: State = {
+  uid: '',
+  username: '',
+  email: '',
+  location: '',
+  aboutMe: '',
+  photoURL: '',
+  status: '',
+  YO: '',
+  token: '',
+  loading: Loading.PENDING,
+};
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser(state,action) {
-      state.email = action.payload.email;
-      state.token = action.payload.token;
-      state.location = action.payload.location;
+    signIn(state, action) {
+      state.uid = action.payload.uid;
       state.status = action.payload.status;
-      state.old = action.payload.old;
+      state.location = action.payload.location;
+      state.token = action.payload.token;
+      state.email = action.payload.email;
+      state.YO = action.payload.YO;
       state.photoURL = action.payload.photoURL;
       state.aboutMe = action.payload.aboutMe;
-      state.name = action.payload.name;
-      localStorage.setItem("location", state.location);
-      localStorage.setItem("status", state.status);
-      localStorage.setItem("old", state.old);
-      localStorage.setItem("photoURL", state.photoURL);
-      localStorage.setItem("aboutMe", state.aboutMe);
-      localStorage.setItem("name", state.name);
-      localStorage.setItem("accessToken", state.token);
+      state.username = action.payload.username;
     },
-    removeUser(state){
-      state.id = null;
+    signOut(state) {
       localStorage.clear();
+      state.uid = '';
+      state.status = '';
+      state.location = '';
+      state.token = '';
+      state.email = '';
+      state.YO = '';
+      state.photoURL = '';
+      state.aboutMe = '';
+      state.username = '';
+    },
+    updateUser(state) {
+      
     }
-  }
-})
+  },
+});
 
-export const selectUser = (state:RootState) => state.user;
+export const selectUser = (state: RootState) => state.user;
 
-export const {setUser,removeUser} = userSlice.actions;
+export const { signIn, signOut } = userSlice.actions;
 export default userSlice.reducer;
+
+// export type dataUserType = {
+//   uid: string;
+//   username: string;
+//   email: string;
+//   location: string;
+//   aboutMe: string;
+//   photoURL: string;
+//   status: string;
+//   YO: string;
+//   token: string;
+// };
+// extraReducers: (builder) => {
+//   builder.addCase(fetchUser.fulfilled, (state, action: PayloadAction<DocumentData>) => {
+//     state.loading = Loading.SUCCESS;
+//     state.dataUser = response.data();
+//   });
+//   builder.addCase(fetchUser.pending, (state) => {
+//     state.loading = Loading.PENDING;
+//     state.dataUser = null;
+//   });
+//   builder.addCase(fetchUser.rejected, (state) => {
+//     state.loading = Loading.ERROR;
+//     state.dataUser = null;
+//   });
+// },
+// export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
+//   const auth = getAuth();
+//   const dispatch = useAppDispatch();
+//   const docSnap = await getDoc(doc(db, 'users', auth.currentUser.uid));
+//   if (docSnap.exists()) {
+//           dispatch(
+//             signIn({
+//               uid: docSnap.data().uid,
+//               status: docSnap.data().status,
+//               location: docSnap.data().location,
+//               token: docSnap.data().token,
+//               email: docSnap.data().email,
+//               YO: docSnap.data().YO,
+//               photoURL: docSnap.data().photoURL,
+//               aboutMe: docSnap.data().aboutMe,
+//               username: docSnap.data().username,
+//             }),
+//           );
+//           debugger
+//   }else{
+//     console.log('Something went wrong...')
+//     console.error()
+//   }
+// });

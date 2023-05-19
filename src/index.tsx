@@ -4,14 +4,17 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from './Redux/store';
-import './firebase'
+import { store,persister } from './Redux/store';
+import './firebase';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persister}>
+        <App />
+      </PersistGate>
     </Provider>
   </BrowserRouter>,
 );

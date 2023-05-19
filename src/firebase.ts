@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth} from "firebase/auth";
-import {getDatabase} from 'firebase/database'
+import {getFirestore} from 'firebase/firestore'
 
 
 const firebaseConfig = {
@@ -11,11 +11,10 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
-  databaseURL: 'https://socialnetworkcolombo-default-rtdb.firebaseio.com'
 };
 
 const app = initializeApp(firebaseConfig);
-export const database = getDatabase(app);
+export const db = getFirestore();
 
 export const createUser = async (email:string, password:string) => {
   return createUserWithEmailAndPassword(getAuth(app), email, password);
