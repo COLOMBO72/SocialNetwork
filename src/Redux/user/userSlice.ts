@@ -11,6 +11,7 @@ export interface State {
   status: string;
   YO: string;
   token: string;
+  loading: boolean;
 }
 
 
@@ -24,6 +25,7 @@ const initialState: State = {
   status: '',
   YO: '',
   token: '',
+  loading: false,
 };
 
 export const userSlice = createSlice({

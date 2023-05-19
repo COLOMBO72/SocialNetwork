@@ -7,8 +7,7 @@ import { selectUser } from '../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
 
 const Profile: React.FC = () => {
-  const [loading, setLoading] = React.useState(false);
-  const [errorMsg, setErrorMsg] = React.useState('');
+  const [loading,setLoading] = React.useState(false)
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isAuth } = useAuth();
@@ -22,8 +21,6 @@ const Profile: React.FC = () => {
   }, [isAuth]);
   return (
     <div className={stylesProfile.profile_wrapper}>
-      {/* {loading ? <Skeleton/> : ''}
-      {errorMsg && <div className="error">{errorMsg}</div>} */}
       <div className={stylesProfile.profile_block}>
         <div className={stylesProfile.ava_wrapper}>
           <img src={photoURL ? photoURL : 'assets/null_ava.jpg'} />
