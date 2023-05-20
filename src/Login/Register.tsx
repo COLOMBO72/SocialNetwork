@@ -86,8 +86,9 @@ const Register: React.FC = () => {
           <span>Years old</span>
           <input type="old" />
         </div>
-        <div>
-          <input type="file" id={'file'} />
+        <div className={stylesLogin.choseImage}>
+          <span>Load your photo</span>
+          <input style={{display: "none"}} type="file" id={'file'} />
           <label htmlFor="file">
             <img src="./assets/icon-fileload.png" />
           </label>
