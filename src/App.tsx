@@ -5,6 +5,7 @@ import Register from './Login/Register';
 import Login from './Login/Login';
 import Profile from './Profile/Profile';
 import Users from './UsersList/Users';
+import Messages from './Messages/Dialogs';
 import Header from './Header/Header';
 import { useAuth } from './hooks/use-auth';
 
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/" element={<Profile />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/messages" element={<Messages />} />
         </Routes>
       </main>
     </div>

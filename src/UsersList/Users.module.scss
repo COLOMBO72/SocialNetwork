@@ -19,6 +19,9 @@
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid;
+  @media (max-width: 650px) {
+    width: 350px;
+  }
   img{
     width: 100px;
     height: 100px;
@@ -61,6 +64,58 @@
     }
     span{
       font-size: 24px;
+    }
+  }
+}
+
+.search_wrapper{
+  position: relative;
+  .search_input{
+    .icon_close{
+      position: absolute;
+      width: 20px;
+      opacity: 0.5;
+      right: 3px;
+      top: 3px;
+      &:hover{
+        opacity: 1;
+      }
+    }
+    .icon_search{
+      position: absolute;
+      width: 20px;
+      left: 3px;
+      top: 3px;
+    }
+    input{
+      padding: 5px;
+      border-radius: 8px;
+      border-width: 1px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+  .finded_user{
+    border-radius: 10px;
+    background-color: #f0efef;
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+    img{
+      width: 60px;
+      border-radius: 100px;
+      height: 60px;
+    }
+    div{
+      display: flex;
+      flex-direction: column;
+      span{
+        font-size: 16px;
+      }
     }
   }
 }

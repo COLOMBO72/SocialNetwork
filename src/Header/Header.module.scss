@@ -1,7 +1,7 @@
 .nav_wrapper{
   background-color: white;
   position: sticky;
-  top: 5px;
+  top: 30px;
   width: 15%;
   height: 500px;
   display: flex;
@@ -11,27 +11,65 @@
   padding: 20px;
   border-radius: 10px;
   justify-content: space-between;
+  @media (max-width: 1150px) {
+    flex-direction: row;
+    position: fixed;
+    height: 50px;
+    width: 100%;
+    justify-content: center;
+    top: 90%;
+  }
   nav{
     display: flex;
     flex-direction: column;
-    a{
-      text-decoration: none;
-      margin: 10px 0px;
-      color: black;
-      transition: 0.2s;
-      border: 1px solid;
-      border-radius: 10px;
-      border-color: #f3f3f3;
-      padding: 10px;
-      text-align: center;
-      width: 200px;
-      &:hover{
-        background-color: rgb(237, 244, 252);
-        border-color: rgb(237, 244, 252);
-        transition: 0.2s;
-        transform: scale(1.05);
-      }
+    @media (max-width: 1150px) {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
     }
+      a{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 170px;
+        text-decoration: none;
+        margin: 10px 0px;
+        color: black;
+        transition: 0.2s;
+        border: 1px solid;
+        border-radius: 10px;
+        border-color: #f3f3f3;
+        padding: 10px;
+        text-align: center;
+        @media (max-width: 1150px) {
+          width: 100px;
+          margin: 0px 10px;
+        }
+        @media (max-width: 870px) {
+          width: 80px;
+          font-size: 12px;
+          margin: 0px 10px;
+          padding: 5px;
+        }
+        @media (max-width: 630px) {
+          font-size: 0;
+          align-items: center;
+          justify-content: center;
+          margin: 20px;
+          width: 30px;
+        }
+        @media (max-width: 400px) {
+          margin: 10px;
+        }
+        &:hover{
+          background-color: rgb(237, 244, 252);
+          border-color: rgb(237, 244, 252);
+          transition: 0.2s;
+          transform: scale(1.05);
+        }
+      }
+    
   }
   button {
     background-color: #FFFFFF;
@@ -49,9 +87,17 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    transition: 0.2s;
+    @media (max-width: 870px) {
+      width: 60px;
+      background-color: rgb(243, 155, 128);
+      font-size: 12px;
+      padding: 5px;
+    }
   }
   button:hover {
-    background-color: rgb(249,250,251);
+    transition: 0.2s;
+    background-color: rgb(236, 63, 63);
   }
   button:focus {
     outline: 2px solid transparent;

@@ -12,13 +12,13 @@ const Preloader = () => {
       >
         <defs>
           <linearGradient id="ap-grad1" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="hsl(223,90%,55%)" />
-            <stop offset="100%" stop-color="hsl(253,90%,55%)" />
+            <stop offset="0%" stopColor="hsl(223,90%,55%)" />
+            <stop offset="100%" stopColor="hsl(253,90%,55%)" />
           </linearGradient>
           <linearGradient id="ap-grad2" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="hsl(193,90%,55%)" />
-            <stop offset="50%" stop-color="hsl(223,90%,55%)" />
-            <stop offset="100%" stop-color="hsl(253,90%,55%)" />
+            <stop offset="0%" stopColor="hsl(193,90%,55%)" />
+            <stop offset="50%" stopColor="hsl(223,90%,55%)" />
+            <stop offset="100%" stopColor="hsl(253,90%,55%)" />
           </linearGradient>
         </defs>
         <circle
@@ -28,8 +28,8 @@ const Preloader = () => {
           cy="192"
           fill="none"
           stroke="#ddd"
-          stroke-width="16"
-          stroke-linecap="round"
+          strokeWidth="16"
+          strokeLinecap="round"
         />
         <circle
           className="ap__worm1"
@@ -38,18 +38,18 @@ const Preloader = () => {
           cy="192"
           fill="none"
           stroke="url(#ap-grad1)"
-          stroke-width="16"
-          stroke-linecap="round"
-          stroke-dasharray="87.96 263.89"
+          strokeWidth="16"
+          strokeLinecap="round"
+          strokeDasharray="87.96 263.89"
         />
         <path
           className="ap__worm2"
           d="M120,192A56,56,0,0,1,8,192C8,161.07,16,8,64,8S120,161.07,120,192Z"
           fill="none"
           stroke="url(#ap-grad2)"
-          stroke-width="16"
-          stroke-linecap="round"
-          stroke-dasharray="87.96 494"
+          strokeWidth="16"
+          strokeLinecap="round"
+          strokeDasharray="87.96 494"
         />
       </svg>
     </div>

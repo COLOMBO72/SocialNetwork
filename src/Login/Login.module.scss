@@ -66,5 +66,14 @@
         top: -1px;
       }
     }
+    .choseImage{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      color: #879ab3;
+      img{
+        cursor: pointer;
+      }
+    }
   }
 }

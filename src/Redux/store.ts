@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
+import filterReducer from './filter/filterSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import {
   persistStore,
@@ -15,6 +16,7 @@ import storage from 'redux-persist/lib/storage';
 
 const rootReducer = combineReducers({
   user: userReducer,
+  filter: filterReducer,
 });
 
 const persistConfig = {

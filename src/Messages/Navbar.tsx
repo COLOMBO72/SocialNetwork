@@ -1,14 +1,12 @@
 import React from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
-import stylesUsers from './Users.module.scss';
-import UserBlock from './UserBlock';
-import { useAppSelector } from '../Redux/store';
-import { selectUser } from '../Redux/user/userSlice';
 import Preloader from '../Loading/Preloader';
-import Search from './Search';
+import Search from '../UsersList/Search';
+import { UserBlockMessages } from './UserBlockMessages';
+import stylesMessages from './Dialogs.module.scss'
 
-const Users = React.memo(() => {
+const Navbar = React.memo(() => {
   const [users, setUsers] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
@@ -28,16 +26,14 @@ const Users = React.memo(() => {
     return <Preloader />;
   }
   return (
-    <div className={stylesUsers.usersList_wrapper}>
-      <span>Users list</span>
+    <div className={stylesMessages.usersList_wrapper}>
       <Search />
       <div>
         {users.map((s, i) => {
-          return <UserBlock key={i} {...s} />;
+          return <UserBlockMessages key={i} {...s} />;
         })}
       </div>
     </div>
   );
 });
-
-export default Users;
+export default Navbar;

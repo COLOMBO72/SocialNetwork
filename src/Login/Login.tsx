@@ -7,14 +7,13 @@ import { db, signInUser } from '../firebase';
 import { useAuth } from '../hooks/use-auth';
 import stylesLogin from './Login.module.scss';
 import { doc, getDoc } from 'firebase/firestore';
-import Preloader from '../Loading/Loading';
+import Preloader from '../Loading/Preloader';
 
 const Login: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isAuth } = useAuth();
-
   // Функция. Вызывается при нажатии, принимает в себя value инпутов из FormLogin.
   const handleLogin = async (email: string, password: string) => {
     // Инициализируем метод firebase который показывает базу данных.
@@ -62,8 +61,8 @@ const Login: React.FC = () => {
       navigate('/profile');
     }
   }, [isAuth]);
-  if (loading){
-    return <Preloader/>
+  if (loading) {
+    return <Preloader />;
   }
   return (
     <div className={stylesLogin.login_page_Wrapper}>

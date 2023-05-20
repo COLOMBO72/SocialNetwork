@@ -1,10 +1,8 @@
 .profile_wrapper{
   display: flex;
   flex-direction: column;
-  
   align-items: center;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+  border-radius: 10px;
   background-color: white;
   width: 100%;
   .photos_block{
@@ -15,9 +13,17 @@
     background-color: rgb(253, 253, 253);
     display: flex;
     box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
-    width: 50%;
+    width: 80%;
     img{
       margin: 10px;
+    }
+    @media (max-width: 600px) {
+      width: 70%;
+    }
+    @media (max-width: 400px) {
+      width: 90%;
+      border-radius: 0px;
+      box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0);
     }
   }
   .profile_block{
@@ -26,9 +32,17 @@
     display: flex;
     padding: 20px;
     justify-content: space-around;
+    @media (max-width: 650px) {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
     .buttons{
       display: flex;
       flex-direction: column;
+      @media (max-width: 650px) {
+        flex-direction: row;
+      }
       button {
         margin: 10px;
         background-color: #FFFFFF;
@@ -46,6 +60,9 @@
         user-select: none;
         -webkit-user-select: none;
         touch-action: manipulation;
+        @media (max-width: 650px) {
+          font-size: 12px;
+        }
       }
       button:hover {
         background-color: rgb(249,250,251);
@@ -62,6 +79,9 @@
       margin-left: 20px;
       display: flex;
       flex-direction: column;
+      @media (max-width: 650px) {
+        margin-left: 0px;
+      }
       .aboutme_wrap{
         padding: 5px;
         border-bottom: 1px solid;
@@ -69,6 +89,9 @@
         margin-bottom: 10px;
         span{
           font-size: 20px;
+          @media (max-width: 650px) {
+            font-size: 16px;
+          }
         }
       }
     }
@@ -83,6 +106,9 @@
       display: flex;
       flex-direction: column;
       margin-left: 50px;
+      @media (max-width: 650px) {
+        margin-left: 0px;
+      }
       .namewrap{
         padding: 5px;
         border-bottom: 1px solid;

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 export interface State {
@@ -13,7 +13,6 @@ export interface State {
   token: string;
   loading: boolean;
 }
-
 
 const initialState: State = {
   uid: '',
