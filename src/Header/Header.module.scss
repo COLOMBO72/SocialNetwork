@@ -1,23 +1,23 @@
 .nav_wrapper{
   background-color: white;
   position: sticky;
-  top: 30px;
   width: 15%;
   height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 5px;
+  margin-right: 5px;
   padding: 20px;
   border-radius: 10px;
   justify-content: space-between;
   @media (max-width: 1150px) {
     flex-direction: row;
     position: fixed;
+    bottom: -4px;
     height: 50px;
     width: 100%;
+    margin-right: 0px;
     justify-content: center;
-    top: 90%;
   }
   nav{
     display: flex;
@@ -88,9 +88,9 @@
     -webkit-user-select: none;
     touch-action: manipulation;
     transition: 0.2s;
+    background-color: rgb(243, 155, 128);
     @media (max-width: 870px) {
       width: 60px;
-      background-color: rgb(243, 155, 128);
       font-size: 12px;
       padding: 5px;
     }

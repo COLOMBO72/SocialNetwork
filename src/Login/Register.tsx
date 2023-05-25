@@ -8,11 +8,14 @@ import { collection, doc, setDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { Link } from 'react-router-dom';
+import Preloader from '../Loading/Preloader';
 
 const Register: React.FC = () => {
+  const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
   const { isAuth } = useAuth();
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const email = e.target[0].value;
     const pass = e.target[1].value;
@@ -28,39 +31,43 @@ const Register: React.FC = () => {
       // 1: создаёт пользователя и записывает данные в firebase authefication.
       const res = await createUser(email, pass);
       // 2: создаёт функцию в которой есть асинхронный запрос на сервер для отправления введённых данных.
-      const writeUserData = async (old: string, name: string, locationUser: string) => {
+      await uploadBytesResumable(storageRef, file).then(() => {
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          // Отправка в storage аватарки с именем.
-          await updateProfile(res.user, {
-            displayName: name,
-            photoURL: downloadURL,
-          });
-          // Отправка в firestore введённых данных.
-          await setDoc(doc(usersRef, `${res.user.uid}`), {
-            uid: res.user.uid,
-            username: name,
-            email: res.user.email,
-            location: locationUser,
-            aboutMe: 'Here must be info about me',
-            photoURL: downloadURL,
-            status: 'Just react developer',
-            YO: old,
-            token: res.user.refreshToken,
-          });
+          try {
+            // Отправка в storage аватарки с именем.
+            await updateProfile(res.user, {
+              displayName: name,
+              photoURL: downloadURL,
+            });
+            // Отправка в firestore введённых данных.
+            await setDoc(doc(usersRef, `${res.user.uid}`), {
+              uid: res.user.uid,
+              username: name,
+              email: res.user.email,
+              location: locationUser,
+              aboutMe: 'Here must be info about me',
+              photoURL: downloadURL,
+              status: 'Just react developer',
+              YO: old,
+              token: res.user.refreshToken,
+            });
+            await setDoc(doc(db, 'userDialogs', res.user.uid), {});
+            navigate('/login');
+            setLoading(false);
+          } catch (error) {
+            console.error();
+            setLoading(false);
+          }
         });
-      };
-      // Вызывается функция в функции (замыкание).
-      writeUserData(old, name, locationUser);
+      });
     } catch (error) {
       console.error();
+      setLoading(false);
     }
-    navigate('/login');
   };
-  React.useEffect(() => {
-    if (isAuth == true) {
-      navigate('/profile');
-    }
-  }, [isAuth]);
+  if (loading) {
+    <Preloader />;
+  }
   return (
     <div className={stylesLogin.login_page_Wrapper}>
       <h3>Join Us!</h3>
@@ -88,7 +95,7 @@ const Register: React.FC = () => {
         </div>
         <div className={stylesLogin.choseImage}>
           <span>Load your photo</span>
-          <input style={{display: "none"}} type="file" id={'file'} />
+          <input style={{ display: 'none' }} type="file" id={'file'} />
           <label htmlFor="file">
             <img src="./assets/icon-fileload.png" />
           </label>

@@ -13,10 +13,12 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import dialogsReducer from './dialogs/dialogsSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
   filter: filterReducer,
+  dialogs: dialogsReducer,
 });
 
 const persistConfig = {

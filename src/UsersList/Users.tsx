@@ -6,7 +6,7 @@ import UserBlock from './UserBlock';
 import { useAppSelector } from '../Redux/store';
 import { selectUser } from '../Redux/user/userSlice';
 import Preloader from '../Loading/Preloader';
-import Search from './Search';
+import Search from '../Forms/Search';
 
 const Users = React.memo(() => {
   const [users, setUsers] = React.useState([]);

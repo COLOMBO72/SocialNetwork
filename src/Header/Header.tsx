@@ -6,6 +6,7 @@ import { selectUser } from '../Redux/user/userSlice';
 import { signOut } from '../Redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import Preloader from '../Loading/Preloader';
+import { setLogout } from '../Redux/dialogs/dialogsSlice';
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const Header = () => {
     dispatch(signOut());
     setLoading(false);
     navigate('/login');
+    dispatch(setLogout());
   };
   const { username } = useAppSelector(selectUser);
   if (loading) {

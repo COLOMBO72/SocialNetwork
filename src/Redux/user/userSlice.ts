@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-export interface State {
+export interface IUser {
   uid: string;
   username: string;
   email: string;
@@ -14,7 +14,7 @@ export interface State {
   loading: boolean;
 }
 
-const initialState: State = {
+const initialState: IUser = {
   uid: '',
   username: '',
   email: '',

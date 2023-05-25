@@ -12,9 +12,9 @@ import { useAuth } from './hooks/use-auth';
 const App = () => {
   const { isAuth } = useAuth();
   return (
-    <div className='app_wrapper'>
-      {isAuth ? <Header /> : ''}
+    <div className="app_wrapper">
       <main className="main">
+        {isAuth ? <Header /> : ''}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

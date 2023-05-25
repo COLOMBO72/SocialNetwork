@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/use-auth';
 import stylesLogin from './Login.module.scss';
 import { doc, getDoc } from 'firebase/firestore';
 import Preloader from '../Loading/Preloader';
+import { getCurrentUserId } from '../Redux/dialogs/dialogsSlice';
 
 const Login: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
@@ -45,6 +46,9 @@ const Login: React.FC = () => {
               username: docSnap.data().username,
             }),
           );
+          dispatch(getCurrentUserId(
+            docSnap.data().uid,
+          ))
           setLoading(false);
         } else {
           console.error();

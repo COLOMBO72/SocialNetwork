@@ -5,6 +5,8 @@ import { useAppSelector } from '../Redux/store';
 import { useAuth } from '../hooks/use-auth';
 import { selectUser } from '../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
+import dialogsSlice from '../Redux/dialogs/dialogsSlice';
+import null_ava from '../../public/assets/null_ava.jpg'
 
 const Profile: React.FC = () => {
   const [loading,setLoading] = React.useState(false)
@@ -23,7 +25,7 @@ const Profile: React.FC = () => {
     <div className={stylesProfile.profile_wrapper}>
       <div className={stylesProfile.profile_block}>
         <div className={stylesProfile.ava_wrapper}>
-          <img src={photoURL ? photoURL : 'assets/null_ava.jpg'} />
+          <img src={photoURL ? photoURL : '/assets/null_ava.jpg'} />
         </div>
         <div className={stylesProfile.profile_info_block}>
           <div className={stylesProfile.namewrap}>
