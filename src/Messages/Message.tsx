@@ -7,13 +7,11 @@ import { selectUser } from '../Redux/user/userSlice';
 const Message = ({ message }) => {
   const { user } = useAppSelector(selectDialogs);
   const { username, photoURL, uid } = useAppSelector(selectUser);
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement>();
 
-  // useEffect(()=>{
-  //   ref.current?.scrollIntoView({behavior: "smooth"})
-  // },[message])
-  console.log(message.sendId);
-  console.log(uid);
+  useEffect(()=>{
+    ref.current?.scrollIntoView({behavior: "smooth"})
+  },[message])
   return (
     <div
       ref={ref}
@@ -25,7 +23,7 @@ const Message = ({ message }) => {
     >
       <div>
         <img src={message.sendId === uid ? photoURL : user.photoURL} width={40} />
-        <span className={stylesMessages.message_time}>just now</span>
+        <span className={stylesMessages.message_time}>now</span>
       </div>
       <span className={stylesMessages.message_text}>{message.text}</span>
     </div>

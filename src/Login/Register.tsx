@@ -9,6 +9,7 @@ import { updateProfile } from 'firebase/auth';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { Link } from 'react-router-dom';
 import Preloader from '../Loading/Preloader';
+import icon_file from '../assets/icon-fileload.png'
 
 const Register: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
@@ -97,7 +98,7 @@ const Register: React.FC = () => {
           <span>Load your photo</span>
           <input style={{ display: 'none' }} type="file" id={'file'} />
           <label htmlFor="file">
-            <img src="./assets/icon-fileload.png" />
+            <img src={icon_file} />
           </label>
         </div>
         <button>Sign Up</button>

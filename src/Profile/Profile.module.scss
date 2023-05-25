@@ -129,3 +129,33 @@
     }
   }
 }
+
+.profile_wrapper_edit{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: white;
+  width: 100%;
+  div{
+    display: flex;
+    align-items: center;
+    margin: 3px;
+    border: 1px solid;
+    border-radius: 5px;
+    img{
+      opacity: 0.5;
+      transition: 0.2s;
+      &:hover{
+        opacity: 1;
+        transition: 0.2s;
+      }
+    }
+    span{
+      padding: 5px;
+      font-size: 16px;
+      margin-right: 8px;
+    }
+  }
+}

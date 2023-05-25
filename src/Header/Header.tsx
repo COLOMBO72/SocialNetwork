@@ -7,6 +7,11 @@ import { signOut } from '../Redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import Preloader from '../Loading/Preloader';
 import { setLogout } from '../Redux/dialogs/dialogsSlice';
+import profile_logo from '../assets/profile_logo_navbar.png';
+import settings_logo from '../assets/settings_logo_navbar.png';
+import messages_logo from '../assets/messages_logo_navbar.png';
+import users_logo from '../assets/users_logo_navbar.png';
+import news_logo from '../assets/news_logo_navbar.png';
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -27,22 +32,22 @@ const Header = () => {
     <div className={stylesHeader.nav_wrapper}>
       <nav>
         <Link to={'/profile'}>
-          <img src={'./assets/profile_logo_navbar.png'} width={30} /> Profile
+          <img src={profile_logo} width={30} /> Profile
         </Link>
 
         <Link to={'/messages'}>
-          <img src={'./assets/messages_logo_navbar.png'} width={30} /> Messages
+          <img src={messages_logo} width={30} /> Messages
         </Link>
 
         <Link to={'/users'}>
-          <img src={'./assets/users_logo_navbar.png'} width={30} /> Users
+          <img src={users_logo} width={30} /> Users
         </Link>
 
         <Link to={'/news'}>
-          <img src={'./assets/news_logo_navbar.png'} width={30} /> News
+          <img src={news_logo} width={30} /> News
         </Link>
         <Link to={'/settings'}>
-          <img src={'./assets/settings_logo_navbar.png'} width={30} /> Settings
+          <img src={settings_logo} width={30} /> Settings
         </Link>
       </nav>
       <button onClick={onClickRemove}>Logout from {username}</button>

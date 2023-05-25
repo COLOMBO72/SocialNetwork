@@ -3,6 +3,8 @@ import stylesSearch from './Search.module.scss';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import debounce from 'lodash.debounce';
+import icon_search from '../assets/icon-search.png';
+import icon_close from '../assets/icon-search.png';
 
 export const Search: React.FC = () => {
   const [username, setUsername] = React.useState('');
@@ -43,7 +45,7 @@ export const Search: React.FC = () => {
   return (
     <div className={stylesSearch.search_wrapper}>
       <div className={stylesSearch.search_input}>
-        <img className={stylesSearch.icon_search} src="./assets/icon-search.png" />
+        <img className={stylesSearch.icon_search} src={icon_search} />
         <input
           type="text"
           placeholder="Find user"
@@ -53,21 +55,23 @@ export const Search: React.FC = () => {
           ref={inputRef}
         />
         {username ? (
-          <img
-            className={stylesSearch.icon_close}
-            src="./assets/icon-close.png"
-            onClick={onClickClose}/>) : ''}
+          <img className={stylesSearch.icon_close} src={icon_close} onClick={onClickClose} />
+        ) : (
+          ''
+        )}
       </div>
       <div>
         {user ? (
           <div className={stylesSearch.finded_user}>
             <img src={user.photoURL} width={30} />
             <div>
-            <span>{user.username}</span>
-            <span>{user.location}</span>
+              <span>{user.username}</span>
+              <span>{user.location}</span>
             </div>
           </div>
-        ) : ''}
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );

@@ -16,6 +16,8 @@ import debounce from 'lodash.debounce';
 import { useAppSelector } from '../Redux/store';
 import { selectUser } from '../Redux/user/userSlice';
 import Preloader from '../Loading/Preloader';
+import icon_search from '../assets/icon-search.png';
+import icon_close from '../assets/icon-search.png';
 
 export const Search: React.FC = () => {
   const [username, setUsername] = React.useState('');
@@ -94,7 +96,7 @@ export const Search: React.FC = () => {
   return (
     <div className={stylesSearch.search_wrapper}>
       <div className={stylesSearch.search_input}>
-        <img className={stylesSearch.icon_search} src="./assets/icon-search.png" />
+        <img className={stylesSearch.icon_search} src={icon_search} />
         <input
           type="text"
           placeholder="Find user"
@@ -106,7 +108,7 @@ export const Search: React.FC = () => {
         {username ? (
           <img
             className={stylesSearch.icon_close}
-            src="./assets/icon-close.png"
+            src={icon_close}
             onClick={onClickClose}
           />
         ) : (

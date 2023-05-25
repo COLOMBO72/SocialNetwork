@@ -8,6 +8,8 @@ import Users from './UsersList/Users';
 import Messages from './Messages/Dialogs';
 import Header from './Header/Header';
 import { useAuth } from './hooks/use-auth';
+import ProfileUser from './Profile/ProfileUser';
+import NotFound from './NotFound/NotFound';
 
 const App = () => {
   const { isAuth } = useAuth();
@@ -21,7 +23,9 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/" element={<Profile />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/users/:uid" element={<ProfileUser />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </div>

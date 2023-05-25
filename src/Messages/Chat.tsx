@@ -8,6 +8,9 @@ import { db, storage } from '../firebase';
 import { v4 as uu } from 'uuid';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { selectUser } from '../Redux/user/userSlice';
+import icon_close from '../assets/icon-close.png'
+import icon_share from '../assets/icon-share.png'
+import icon_send from '../assets/icon-send.png'
 
 const Chat = () => {
   const [text, setText] = React.useState('');
@@ -17,68 +20,77 @@ const Chat = () => {
   const dispatch = useAppDispatch();
   const inputValue = React.useRef(null);
   const handleSend = async () => {
-    if (img) {
-      const storageRef = ref(storage, uu());
-      const uploadTask = uploadBytesResumable(storageRef, img);
-      try {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+    if (!text || text.length>300) {
+      alert('No text');
+    } else {
+      if (img) {
+        const storageRef = ref(storage, uu());
+        const uploadTask = uploadBytesResumable(storageRef, img);
+        try {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateDoc(doc(db, 'dialogs', dialogId), {
+              messages: arrayUnion({
+                id: uu(),
+                text,
+                sendId: user.uid,
+                date: Timestamp.now(),
+                img: downloadURL,
+              }),
+            });
+          });
+        } catch (error) {
+          console.error();
+        }
+      } else {
+        try {
           await updateDoc(doc(db, 'dialogs', dialogId), {
             messages: arrayUnion({
               id: uu(),
               text,
-              sendId: user.uid,
+              sendId: uid,
               date: Timestamp.now(),
-              img: downloadURL,
             }),
           });
-        });
-      } catch (error) {
-        console.error();
+        } catch (error) {
+          console.error();
+        }
       }
-    } else {
-      try {
-        await updateDoc(doc(db, 'dialogs', dialogId), {
-          messages: arrayUnion({
-            id: uu(),
-            text,
-            sendId: uid,
-            date: Timestamp.now(),
-          }),
-        });
-      } catch (error) {
-        console.error();
-      }
+      await updateDoc(doc(db, 'userDialogs', uid), {
+        [dialogId + '.lastMessage']: {
+          text,
+        },
+        [dialogId + '.date']: serverTimestamp(),
+      });
+      await updateDoc(doc(db, 'userDialogs', user.uid), {
+        [dialogId + '.lastMessage']: {
+          text,
+        },
+        [dialogId + '.date']: serverTimestamp(),
+      });
     }
-    await updateDoc(doc(db, 'userDialogs', uid), {
-      [dialogId + '.lastMessage']: {
-        text,
-      },
-      [dialogId + '.date']: serverTimestamp(),
-    });
-    await updateDoc(doc(db, 'userDialogs', user.uid), {
-      [dialogId + '.lastMessage']: {
-        text,
-      },
-      [dialogId + '.date']: serverTimestamp(),
-    });
+  };
+
+  const onClickFunction = () => {
+    handleSend();
     setText('');
-    inputValue.current = '';
   };
 
   if (!user) {
     return <div>Chose user and start chat!</div>;
   }
   return (
-    <div className={stylesMessages.chat_wrapper}>
+    <div className={stylesMessages.chat_wrapper_active}>
       <div className={stylesMessages.user_info_chat}>
-        <img src={user.photoURL} width={40} />
-        <span>{user.username}</span>
+        <div>
+          <img src={user.photoURL} width={40} />
+          <span>{user.username}</span>
+        </div>
+        <img className={stylesMessages.imgback} src={icon_close} width={30} />
       </div>
       <div className={stylesMessages.chat}>
         <Messages />
       </div>
       <div className={stylesMessages.input_wrapper}>
-        <input ref={inputValue} type="text" onChange={(e) => setText(e.target.value)} />
         <input
           type="file"
           style={{ display: 'none' }}
@@ -86,9 +98,17 @@ const Chat = () => {
           onChange={(e) => setImg(e.target.files[0])}
         />
         <label htmlFor="file">
-          <img src="./assets/icon-share.png" width={20} />
+          <img src={icon_share} width={20} />
         </label>
-        <button onClick={() => handleSend()}>Send</button>
+        <input
+          className={stylesMessages.input_text}
+          ref={inputValue}
+          type="text"
+          onChange={(e) => setText(e.target.value)}
+        />
+        <button onClick={onClickFunction}>
+          <img src={icon_send} width={30} />
+        </button>
       </div>
     </div>
   );
