@@ -17,9 +17,10 @@ import { useAppSelector } from '../Redux/store';
 import { selectUser } from '../Redux/user/userSlice';
 import Preloader from '../Loading/Preloader';
 import icon_search from '../assets/icon-search.png';
-import icon_close from '../assets/icon-search.png';
+import icon_close from '../assets/icon-close.png';
+import { handleSelectSearch } from '../hooks/api';
 
-export const Search: React.FC = () => {
+const Search: React.FC = () => {
   const [username, setUsername] = React.useState('');
   const [user, setUser] = React.useState(null);
   const inputRef = React.useRef(null);
@@ -27,40 +28,7 @@ export const Search: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
 
   const handleSelect = async () => {
-    setLoading(true);
-    // Проверяет есть ли диалог в firestore, если нет - то создаёт
-    const combinedId =
-      currentUser.uid > user.uid ? currentUser.uid + user.uid : user.uid + currentUser.uid;
-    try {
-      const res = await getDoc(doc(db, 'dialogs', combinedId));
-      if (!res.exists()) {
-        // Создаёт коллекцию в dialogs
-        await setDoc(doc(db, 'dialogs', combinedId), { messages: [] });
-
-        await updateDoc(doc(db, 'userDialogs', currentUser.uid), {
-          [combinedId + '.userInfo']: {
-            uid: user.uid,
-            username: user.username,
-            photoURL: user.photoURL,
-          },
-          [combinedId + '.date']: serverTimestamp(),
-        });
-        await updateDoc(doc(db, 'userDialogs', user.uid), {
-          [combinedId + '.userInfo']: {
-            uid: currentUser.uid,
-            username: currentUser.username,
-            photoURL: currentUser.photoURL,
-          },
-          [combinedId + '.date']: serverTimestamp(),
-        });
-      }
-    } catch (error) {
-      console.error();
-      setLoading(false);
-    }
-    setUser(null);
-    setUsername('');
-    setLoading(false);
+    handleSelectSearch(setLoading, user, currentUser, setUser, setUsername);
   };
 
   const onSearchUpdate = React.useCallback(
@@ -90,8 +58,8 @@ export const Search: React.FC = () => {
     setUser(null);
     inputRef.current?.focus(); //focus after clear
   };
-  if (loading){
-    return <Preloader/>
+  if (loading) {
+    return <Preloader />;
   }
   return (
     <div className={stylesSearch.search_wrapper}>
@@ -106,11 +74,7 @@ export const Search: React.FC = () => {
           ref={inputRef}
         />
         {username ? (
-          <img
-            className={stylesSearch.icon_close}
-            src={icon_close}
-            onClick={onClickClose}
-          />
+          <img className={stylesSearch.icon_close} src={icon_close} onClick={onClickClose} />
         ) : (
           ''
         )}

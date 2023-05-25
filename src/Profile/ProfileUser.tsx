@@ -1,20 +1,9 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch } from '../Redux/store';
+import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { useAuth } from '../hooks/use-auth';
 import stylesProfile from './Profile.module.scss';
 import Preloader from '../Loading/Preloader';
-
-// type User = {
-//   photoURL: string;
-//   location: string;
-//   username: string;
-//   status: string;
-//   YO: string;
-//   aboutMe: string;
-// };
 
 const ProfileUser: React.FC = () => {
   const [loading, setLoading] = React.useState(false);

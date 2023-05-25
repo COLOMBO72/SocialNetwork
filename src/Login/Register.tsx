@@ -1,20 +1,15 @@
 import React from 'react';
-import { Form, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/use-auth';
+import { useNavigate } from 'react-router-dom';
 import stylesLogin from './Login.module.scss';
 import '../firebase';
-import { createUser, db } from '../firebase';
-import { collection, doc, setDoc } from 'firebase/firestore';
-import { updateProfile } from 'firebase/auth';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { Link } from 'react-router-dom';
 import Preloader from '../Loading/Preloader';
-import icon_file from '../assets/icon-fileload.png'
+import icon_file from '../assets/icon-fileload.png';
+import { onHandleRegister } from '../hooks/api';
 
 const Register: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
-  const { isAuth } = useAuth();
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -24,47 +19,8 @@ const Register: React.FC = () => {
     const locationUser = e.target[3].value;
     const old = e.target[4].value;
     const file = e.target[5].files[0];
-    const usersRef = collection(db, 'users');
-    const storage = getStorage();
-    const storageRef = ref(storage, name);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    try {
-      // 1: создаёт пользователя и записывает данные в firebase authefication.
-      const res = await createUser(email, pass);
-      // 2: создаёт функцию в которой есть асинхронный запрос на сервер для отправления введённых данных.
-      await uploadBytesResumable(storageRef, file).then(() => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          try {
-            // Отправка в storage аватарки с именем.
-            await updateProfile(res.user, {
-              displayName: name,
-              photoURL: downloadURL,
-            });
-            // Отправка в firestore введённых данных.
-            await setDoc(doc(usersRef, `${res.user.uid}`), {
-              uid: res.user.uid,
-              username: name,
-              email: res.user.email,
-              location: locationUser,
-              aboutMe: 'Here must be info about me',
-              photoURL: downloadURL,
-              status: 'Just react developer',
-              YO: old,
-              token: res.user.refreshToken,
-            });
-            await setDoc(doc(db, 'userDialogs', res.user.uid), {});
-            navigate('/login');
-            setLoading(false);
-          } catch (error) {
-            console.error();
-            setLoading(false);
-          }
-        });
-      });
-    } catch (error) {
-      console.error();
-      setLoading(false);
-    }
+    onHandleRegister(pass, name, file, email, locationUser, old, navigate, setLoading);
+    setLoading(false);
   };
   if (loading) {
     <Preloader />;

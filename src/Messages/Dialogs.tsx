@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import stylesMessages from './Dialogs.module.scss';
 import Navbar from './Navbar';
 import Chat from './Chat';
-import Preloader from '../Loading/Preloader';
 
 const Dialogs = () => {
+  const [dialog, setDialog] = React.useState(true);
   const { isAuth } = useAuth();
   const navigate = useNavigate();
   React.useEffect(() => {
@@ -16,8 +16,8 @@ const Dialogs = () => {
   }, [isAuth]);
   return (
     <div className={stylesMessages.wrapper}>
-      <Navbar />
-      <Chat />
+      <Navbar setDialog={setDialog} />
+      <Chat dialog={dialog} setDialog={setDialog} />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import stylesLogin from './Login.module.scss';
 import { Link } from 'react-router-dom';
 
-const FormLogin = ({ handleClick }) => {
+const FormLogin = ({ handleClick, error }) => {
   const [email, setEmail] = React.useState('');
   const [pass, setPass] = React.useState('');
   return (
@@ -10,23 +10,22 @@ const FormLogin = ({ handleClick }) => {
       <h1>Sign in</h1>
       <div className={stylesLogin.input}>
         <span>Email</span>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
       <div className={stylesLogin.input}>
         <span>Password</span>
         <input
           type="password"
           value={pass}
-          onChange={(e) => {setPass(e.target.value)}}
+          onChange={(e) => {
+            setPass(e.target.value);
+          }}
         />
       </div>
+      {error ? <div className={stylesLogin.error}>{error}</div> : ''}
       <button onClick={() => handleClick(email, pass)}>Sign in</button>
       <div>
-        <input type="checkbox"/>
+        <input type="checkbox" />
         <span>remember me</span>
       </div>
       <div className={stylesLogin.link}>

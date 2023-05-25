@@ -18,7 +18,7 @@ const Messages = () => {
     };
   }, [dialogId]);
 
-  if (message.length==0) {
+  if (message.length == 0) {
     return <div>Lets some talk</div>;
   }
   return (

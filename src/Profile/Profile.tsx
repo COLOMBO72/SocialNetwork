@@ -5,8 +5,6 @@ import { useAppSelector } from '../Redux/store';
 import { useAuth } from '../hooks/use-auth';
 import { selectUser } from '../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
-import dialogsSlice from '../Redux/dialogs/dialogsSlice';
-import null_ava from '../../public/assets/null_ava.jpg';
 import EditProfile from './EditProfile';
 import ButtonForm from '../Forms/button';
 

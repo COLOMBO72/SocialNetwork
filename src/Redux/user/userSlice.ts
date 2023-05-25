@@ -56,7 +56,7 @@ export const userSlice = createSlice({
     },
     updateUser(state) {
 
-    }
+    },
   },
 });
 

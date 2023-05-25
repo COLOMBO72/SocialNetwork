@@ -9,9 +9,9 @@ const Message = ({ message }) => {
   const { username, photoURL, uid } = useAppSelector(selectUser);
   const ref = useRef<HTMLDivElement>();
 
-  useEffect(()=>{
-    ref.current?.scrollIntoView({behavior: "smooth"})
-  },[message])
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [message]);
   return (
     <div
       ref={ref}
