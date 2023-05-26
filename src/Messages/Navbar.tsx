@@ -14,8 +14,8 @@ type userDialog = {
   photoURL: string;
 };
 
-const Navbar = ({ setDialog }) => {
-  const [loading, setLoading] = React.useState(false);
+const Navbar = ({ dialog,setDialog }) => {
+  const [loading, setLoading] = React.useState(true);
   const [chats, setChats] = React.useState([]);
   const { uid } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -39,10 +39,10 @@ const Navbar = ({ setDialog }) => {
     setLoading(false);
   }, [uid]);
   if (loading) {
-    return <Preloader />;
+    return <Preloader />
   }
   return (
-    <div className={stylesMessages.usersList_wrapper}>
+    <div className={dialog ? stylesMessages.usersList_wrapper_short : stylesMessages.usersList_wrapper_full}>
       <Search />
       {Object.entries(chats)
         ?.sort((a, b) => b[1].date - a[1].date)
@@ -56,7 +56,7 @@ const Navbar = ({ setDialog }) => {
             <div className={stylesMessages.user_info_block}>
               <span>{chat[1].userInfo.username}</span>
               <div className={stylesMessages.lastmessage}>
-                <span>{chat[1].lastMessage?.text}</span>
+                <div>{chat[1].lastMessage?.text}</div>
               </div>
             </div>
           </div>

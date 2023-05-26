@@ -3,7 +3,6 @@ import stylesUsers from './Users.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 
 const UserBlock = ({ username, location, photoURL,uid }) => {
-
   return (
     <div className={stylesUsers.user_block}>
       <Link to={`${uid}`}><img src={photoURL}/></Link>

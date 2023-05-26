@@ -2,7 +2,7 @@ import React from 'react';
 import './Loading.css'
 const Preloader = () => {
   return (
-    <div className='main'>
+    <div className='mainloader'>
       <svg
         className="ap"
         viewBox="0 0 128 256"

@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 import Chat from './Chat';
 
 const Dialogs = () => {
-  const [dialog, setDialog] = React.useState(true);
+  const [dialog, setDialog] = React.useState(false);
   const { isAuth } = useAuth();
   const navigate = useNavigate();
   React.useEffect(() => {
@@ -16,7 +16,7 @@ const Dialogs = () => {
   }, [isAuth]);
   return (
     <div className={stylesMessages.wrapper}>
-      <Navbar setDialog={setDialog} />
+      <Navbar dialog={dialog} setDialog={setDialog} />
       <Chat dialog={dialog} setDialog={setDialog} />
     </div>
   );

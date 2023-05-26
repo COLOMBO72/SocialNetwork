@@ -1,12 +1,12 @@
-import { createUser, db, signInUser } from '../firebase';
-import '../firebase';
+import { createUser, db, signInUser } from './firebase';
+import './firebase';
 import { collection, getDoc, setDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
-import { getCurrentUserId } from '../Redux/dialogs/dialogsSlice';
+import { getCurrentUserId } from './Redux/dialogs/dialogsSlice';
 import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
-import { storage } from '../firebase';
+import { storage } from './firebase';
 import { v4 as uu } from 'uuid';
-import { signIn } from '../Redux/user/userSlice';
+import { signIn } from './Redux/user/userSlice';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 export const handleSendMessage = async (text, img, dialogId, user, uid) => {

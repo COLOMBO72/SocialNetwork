@@ -25,7 +25,7 @@ const Message = ({ message }) => {
         <img src={message.sendId === uid ? photoURL : user.photoURL} width={40} />
         <span className={stylesMessages.message_time}>now</span>
       </div>
-      <span className={stylesMessages.message_text}>{message.text}</span>
+      <div className={stylesMessages.message_text}><span>{message.text}</span></div>
     </div>
   );
 };

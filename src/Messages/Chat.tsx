@@ -4,24 +4,25 @@ import Messages from './Messages';
 import { useAppSelector } from '../Redux/store';
 import { selectDialogs } from '../Redux/dialogs/dialogsSlice';
 import { selectUser } from '../Redux/user/userSlice';
-import icon_close from '../assets/icon-close.png'
-import icon_share from '../assets/icon-share.png'
-import icon_send from '../assets/icon-send.png'
-import { handleSendMessage } from '../hooks/api';
+import icon_close from '../assets/icon-close.png';
+import icon_share from '../assets/icon-share.png';
+import icon_send from '../assets/icon-send.png';
+import { handleSendMessage } from '../api';
 
-const Chat = ({dialog,setDialog}) => {
+const Chat = ({ dialog, setDialog }) => {
   const [text, setText] = React.useState('');
   const [img, setImg] = React.useState(null);
   const { user, dialogId } = useAppSelector(selectDialogs);
   const { uid } = useAppSelector(selectUser);
-  
+
   const onClickFunction = () => {
-    handleSendMessage(text,img,dialogId,user,uid)
+    handleSendMessage(text, img, dialogId, user, uid);
+    setDialog(true);
     setText('');
   };
 
   if (!user) {
-    return <div>Chose user and start chat!</div>;
+    return;
   }
   return (
     <div className={dialog ? stylesMessages.chat_wrapper_active : stylesMessages.chat_wrapper_none}>
@@ -30,7 +31,12 @@ const Chat = ({dialog,setDialog}) => {
           <img src={user.photoURL} width={40} />
           <span>{user.username}</span>
         </div>
-        <img onClick={()=>setDialog(false)} className={stylesMessages.imgback} src={icon_close} width={30} />
+        <img
+          onClick={() => setDialog(false)}
+          className={stylesMessages.imgback}
+          src={icon_close}
+          width={30}
+        />
       </div>
       <div className={stylesMessages.chat}>
         <Messages />

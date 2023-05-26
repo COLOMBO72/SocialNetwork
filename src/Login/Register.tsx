@@ -5,7 +5,7 @@ import '../firebase';
 import { Link } from 'react-router-dom';
 import Preloader from '../Loading/Preloader';
 import icon_file from '../assets/icon-fileload.png';
-import { onHandleRegister } from '../hooks/api';
+import { onHandleRegister } from '../api';
 
 const Register: React.FC = () => {
   const [loading, setLoading] = React.useState(false);

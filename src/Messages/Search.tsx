@@ -18,7 +18,7 @@ import { selectUser } from '../Redux/user/userSlice';
 import Preloader from '../Loading/Preloader';
 import icon_search from '../assets/icon-search.png';
 import icon_close from '../assets/icon-close.png';
-import { handleSelectSearch } from '../hooks/api';
+import { handleSelectSearch } from '../api';
 
 const Search: React.FC = () => {
   const [username, setUsername] = React.useState('');
