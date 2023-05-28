@@ -7,6 +7,8 @@ import { selectUser } from '../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
 import EditProfile from './EditProfile';
 import ButtonForm from '../Forms/button';
+import Preloader from '../Loading/Preloader';
+import { getAuth } from 'firebase/auth';
 
 const Profile = () => {
   const [loading, setLoading] = React.useState(false);
@@ -14,6 +16,8 @@ const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isAuth } = useAuth();
+  const auth = getAuth()
+  const currentUser = auth.currentUser;
   const { username, location, aboutMe, photoURL, status, YO } = useAppSelector(selectUser);
   //Функция. При нажатии делает диспатч в слайс, который воспроизводит actions
 
@@ -22,10 +26,13 @@ const Profile = () => {
       navigate('/login');
     }
   }, [isAuth]);
+  if (loading){
+    return <Preloader/>
+  }
   return (
     <>
       {editMode ? (
-        <EditProfile setEditMode={setEditMode}/>
+        <EditProfile currentUser={currentUser} setEditMode={setEditMode}/>
       ) : (
         <div className={stylesProfile.profile_wrapper}>
           <div className={stylesProfile.profile_block}>
@@ -45,13 +52,9 @@ const Profile = () => {
                 <span>About me</span>
               </div>
               <span>{aboutMe}</span>
-              <span>My interests in coding</span>
             </div>
             <div className={stylesProfile.buttons}>
-              <button>Add to friends</button>
-              <button>Delete from friends</button>
               <ButtonForm title={"Edit profile"} CallFunction={()=>setEditMode(true)}/>
-              <button>Send message</button>
             </div>
           </div>
           <div className={stylesProfile.photos_block}>

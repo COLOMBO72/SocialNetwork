@@ -54,9 +54,6 @@ export const userSlice = createSlice({
       state.aboutMe = '';
       state.username = '';
     },
-    updateUser(state) {
-
-    },
   },
 });
 

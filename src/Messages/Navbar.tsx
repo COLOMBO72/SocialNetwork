@@ -43,6 +43,7 @@ const Navbar = ({ dialog,setDialog }) => {
   }
   return (
     <div className={dialog ? stylesMessages.usersList_wrapper_short : stylesMessages.usersList_wrapper_full}>
+      <h1>Users dialogs</h1>
       <Search />
       {Object.entries(chats)
         ?.sort((a, b) => b[1].date - a[1].date)
