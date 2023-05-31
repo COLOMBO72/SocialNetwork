@@ -22,6 +22,7 @@
       padding: 10px;
       margin:5px 0px;
       display: flex;
+      position: relative;
       align-items: center;
       justify-content: center;
       cursor: pointer;
@@ -31,7 +32,19 @@
       @media (max-width: 650px) {
         width: 100px;
       }
-      img{
+      .deleteDialog{
+        width: 20px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        opacity: 0.5;
+        transition: 0.2s;
+        &:hover{
+          opacity: 1;
+          transition: 0.2s;
+        }
+      }
+      .avatar{
         width: 50px;
         height: 50px;
         border-radius: 100px;
@@ -74,6 +87,7 @@
       padding: 10px;
       margin:5px 0px;
       align-items: center;
+      position: relative;
       display: flex;
       transition: 0.1s;
       background-color: rgb(243, 243, 243);
@@ -85,7 +99,20 @@
       @media (max-width: 650px) {
         width: 80%;
       }
-      img{
+      .deleteDialog{
+        width: 20px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        opacity: 0.5;
+        transition: 0.2s;
+        &:hover{
+          opacity: 1;
+          transition: 0.2s;
+        }
+        
+      }
+      .avatar{
         width: 80px;
         height: 80px;
         border-radius: 100px;
@@ -131,6 +158,7 @@
     transition: 0.2s;
     .imgback{
       opacity: 0.5;
+      cursor: pointer;
       transition: 0.2s;
       &:hover{
         transition: 0.2s;
@@ -173,19 +201,24 @@
     button {
       background-color: #FFFFFF;
       border: 1px solid rgb(209,213,219);
-      border-radius: .5rem;
+      border-radius: 20px;
+      width: 75px;
+      height: 30px;
       color: #111827;
+      align-items: center;
+      justify-content: center;
+      display: flex;
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       cursor: pointer;
       user-select: none;
       -webkit-user-select: none;
       touch-action: manipulation;
       transition: 0.2s;
-      background-color: #bafff6;
+      background-color: #33bdff;
     }
     button:hover {
       transition: 0.2s;
-      background-color: #33bdff;
+      background-color: #bafff6;
     }
     button:focus {
       outline: 2px solid transparent;
@@ -197,6 +230,7 @@
   }
   .chat{
     overflow: auto;
+    height: 100%;
     &::-webkit-scrollbar{
       width: 0px;
     }
@@ -207,14 +241,15 @@
       div{
         display: flex;
         flex-direction: column;
-        align-items: center;
         margin: 10px;
+        max-width: 300px;
       }
       .message_text{
         border-radius: 10px 10px 0px 10px;
         background-color: rgb(196, 233, 255);
         padding: 10px 20px;
         max-width: 300px;
+        word-wrap: break-word;
       }
       img{
         border-radius: 100px;
@@ -226,14 +261,15 @@
       div{
         display: flex;
         flex-direction: column;
-        align-items: center;
         margin: 10px;
+        max-width: 300px;
       }
       .message_text{
         border-radius: 10px 10px 10px 0px;
         background-color: white;
         padding: 10px 20px;
-        max-width: max-content;
+        max-width: 300px;
+        word-wrap: break-word;
       }
       img{
         border-radius: 100px;

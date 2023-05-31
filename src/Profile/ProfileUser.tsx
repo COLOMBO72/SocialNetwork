@@ -4,9 +4,12 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import stylesProfile from './Profile.module.scss';
 import Preloader from '../Loading/Preloader';
+import NotFound from '../NotFound/NotFound';
 
 const ProfileUser: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
+  const [showMore, setShowMore] = React.useState(false);
+  const [showFullImg, setShowFullImg] = React.useState(false);
   const [user, setUser] = React.useState<{
     photoURL: string;
     location: string;
@@ -26,37 +29,50 @@ const ProfileUser: React.FC = () => {
         //@ts-ignore
         setUser(snap.data());
       } else {
-        return console.log('no doc');
+        console.error();
+        setLoading(false);
       }
       setLoading(false);
     };
     docSnap();
   }, []);
+  console.log(user);
+
   if (loading) {
     return <Preloader />;
+  } else if (!user.username) {
+    return <NotFound />;
   }
-
   return (
     <>
       <div className={stylesProfile.profile_wrapper}>
+        {showFullImg && (
+          <div className={stylesProfile.full_ava} onClick={() => setShowFullImg(false)}>
+            <img src={user.photoURL} width={600} />
+          </div>
+        )}
         <div className={stylesProfile.profile_block}>
-          <div className={stylesProfile.ava_wrapper}>
-            <img src={user.photoURL ? user.photoURL : '/assets/null_ava.jpg'} />
-          </div>
-          <div className={stylesProfile.profile_info_block}>
-            <div className={stylesProfile.namewrap}>
-              <span>{user.username}</span>
+          <div className={stylesProfile.profile}>
+            <div className={stylesProfile.ava_wrapper}>
+              <img
+                onClick={() => setShowFullImg(true)}
+                src={user.photoURL ? user.photoURL : '/assets/null_ava.jpg'}
+              />
             </div>
-            <span>{user.status}</span>
-            <span> {user.location}</span>
-            <span>{user.YO}</span>
-          </div>
-          <div className={stylesProfile.aboutme_block}>
-            <div className={stylesProfile.aboutme_wrap}>
-              <span>About me</span>
+            <div className={stylesProfile.profile_info_block}>
+              <div className={stylesProfile.namewrap}>
+                <span>{user.username}</span>
+              </div>
+              <span>{user.status}</span>
+              {!showMore && <p onClick={() => setShowMore(true)}>Show more...</p>}
+              {showMore && (
+                <div onClick={() => setShowMore(false)} className={stylesProfile.aboutme_block}>
+                  <span>Country: {user.location}</span>
+                  <span>Years old: {user.YO}</span>
+                  <span>About me: {user.aboutMe}</span>
+                </div>
+              )}
             </div>
-            <span>{user.aboutMe}</span>
-            <span>My interests in coding</span>
           </div>
           <div className={stylesProfile.buttons}>
             <button>Add to friends</button>
@@ -64,10 +80,7 @@ const ProfileUser: React.FC = () => {
             <button>Send message</button>
           </div>
         </div>
-        <div className={stylesProfile.photos_block}>
-          <img src="/assets/zuckerberg.jpg" width={150} height={150} />
-          <img src="/assets/durov.jpeg" width={150} height={150} />
-        </div>
+        <div className={stylesProfile.photos_block}>photos here</div>
       </div>
     </>
   );

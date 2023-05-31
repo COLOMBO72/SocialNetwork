@@ -3,22 +3,42 @@ import { useAppDispatch, useAppSelector } from '../Redux/store';
 import { selectUser, signIn } from '../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
 import ButtonForm from '../Forms/button';
-import null_ava from '../assets/null_ava.jpg';
-import { signOut } from '../Redux/user/userSlice';
-import { doc, deleteDoc, collection, updateDoc } from 'firebase/firestore';
+import { doc, collection, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { getStorage, ref, deleteObject } from 'firebase/storage';
-import { deleteUser, updateProfile } from 'firebase/auth';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { updateProfile } from 'firebase/auth';
+import icon_file from '../assets/icon-fileload.png';
+import Preloader from '../Loading/Preloader';
+
+export const ModalDelete = ({ setModal }) => {
+  const onDeleteAccount = async () => {
+    setModal(false);
+    // await deleteDoc(doc(db, 'users', currentUser.uid));
+    // await deleteDoc(doc(db, 'userDialogs', currentUser.uid));
+    // await deleteObject(ref(storage, currentUser.displayName));
+    // await deleteUser(currentUser);
+    // dispatch(signOut());
+  };
+
+  return (
+    <div className={stylesProfile.delete_wrap}>
+      <input name="pass" type="password" />
+      <label htmlFor="pass">Confirm your password</label>
+      <ButtonForm title={'Confirm'} CallFunction={onDeleteAccount} />
+    </div>
+  );
+};
 
 export const EditModule = ({ currentUser, setChange }) => {
   const { username, location, aboutMe, photoURL, status, YO, uid, email, token } =
     useAppSelector(selectUser);
+  const [loading, setLoading] = React.useState(false);
+  const [modal, setModal] = React.useState(false);
   const [nameE, setName] = React.useState(username);
   const [statusE, setStatus] = React.useState(status);
   const [locationE, setLocation] = React.useState(location);
   const [aboutMeE, setAboutMe] = React.useState(aboutMe);
   const [yoE, setYO] = React.useState(YO);
-  const [photoURLE, setPhotoURL] = React.useState(photoURL);
   // const refStatus = React.useRef<HTMLInputElement>();
   // const refLocation = React.useRef<HTMLInputElement>();
   // const refAbout = React.useRef<HTMLInputElement>();
@@ -26,64 +46,71 @@ export const EditModule = ({ currentUser, setChange }) => {
   // const refPhoto = React.useRef<HTMLInputElement>();
   const refInput = React.useRef<HTMLInputElement>();
   const dispatch = useAppDispatch();
-  const storage = getStorage();
 
-  const onChangeData = async () => {
+  const onChangeData = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const file = e.target[5].files[0] ? e.target[5].files[0] : photoURL;
+    const storage = getStorage();
+    const storageRef = ref(storage, nameE);
+    const uploadTask = uploadBytesResumable(storageRef, file);
     if (refInput.current.value) {
-      try {
-        await updateProfile(currentUser, {
-          displayName: nameE,
+      await uploadBytesResumable(storageRef, file).then(() => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          try {
+            await updateProfile(currentUser, {
+              displayName: nameE,
+              photoURL: downloadURL,
+            });
+            await updateDoc(doc(collection(db, 'users'), `${currentUser.uid}`), {
+              username: nameE,
+              location: locationE,
+              aboutMe: aboutMeE,
+              photoURL: downloadURL,
+              status: statusE,
+              YO: yoE,
+              uid: uid,
+              email: email,
+              token: token,
+            });
+          } catch (error) {
+            console.error();
+          }
+          dispatch(
+            signIn({
+              username: nameE,
+              location: locationE,
+              aboutMe: aboutMeE,
+              photoURL: downloadURL,
+              status: statusE,
+              YO: yoE,
+              uid: uid,
+              email: email,
+              token: token,
+            }),
+          );
+          setChange(false);
+          setLoading(false);
         });
-        await updateDoc(doc(collection(db, 'users'), `${currentUser.uid}`), {
-          username: nameE,
-          location: locationE,
-          aboutMe: aboutMeE,
-          photoURL: photoURLE,
-          status: statusE,
-          YO: yoE,
-          uid: uid,
-          email: email,
-          token: token,
-        });
-      } catch (error) {
-        console.error();
-      }
-      dispatch(
-        signIn({
-          username: nameE,
-          location: locationE,
-          aboutMe: aboutMeE,
-          photoURL: photoURLE,
-          status: statusE,
-          YO: yoE,
-          uid: uid,
-          email: email,
-          token: token,
-        }),
-      );
-      setChange(false);
+      });
     } else {
       setChange(false);
+      setLoading(true);
       alert('Field empty');
     }
   };
-
-  const onDeleteAccount = async () => {
-    await deleteDoc(doc(db, 'users', currentUser.uid));
-    await deleteDoc(doc(db, 'userDialogs', currentUser.uid));
-    await deleteObject(ref(storage, currentUser.displayName));
-    await deleteUser(currentUser);
-    dispatch(signOut());
-  };
+  if (loading) {
+    return <Preloader />;
+  }
   if (!currentUser) {
     return <div>Error to get user, please update page</div>;
+  } else if (modal) {
+    return <ModalDelete setModal={setModal} />;
   }
   return (
     <>
       <div className={stylesProfile.edit_wrapper}>
-        <div className={stylesProfile.profile_edit}>
-          <img src={currentUser.photoURL ? currentUser.photoURL : null_ava} width={100} />
-
+        <form onSubmit={onChangeData} className={stylesProfile.profile_edit}>
           <div className={stylesProfile.username}>
             Name:
             <input
@@ -133,9 +160,22 @@ export const EditModule = ({ currentUser, setChange }) => {
               ref={refInput}
             />
           </div>
-          <button onClick={onChangeData}>Save</button>
+          <div className={stylesProfile.choseImage}>
+            <span>Load your photo</span>
+            <input style={{ display: 'none' }} type="file" id={'file'} />
+            <label htmlFor="file">
+              <img src={icon_file} />
+            </label>
+          </div>
+          <div className={stylesProfile.profile_edit_buttons}>
+            <ButtonForm title={'Save'} CallFunction={() => {}} />
+          </div>
+        </form>
+        <div className={stylesProfile.profile_edit_buttons2}>
           <ButtonForm title={'Back'} CallFunction={() => setChange(false)} />
-          <button onClick={onDeleteAccount}>Delete account</button>
+          <button onClick={() => setModal(true)} className={stylesProfile.deleteAcc}>
+            Delete account
+          </button>
         </div>
       </div>
     </>

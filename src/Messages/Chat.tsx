@@ -8,19 +8,23 @@ import icon_close from '../assets/icon-close.png';
 import icon_share from '../assets/icon-share.png';
 import icon_send from '../assets/icon-send.png';
 import { handleSendMessage } from '../api';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Chat = ({ dialog, setDialog }) => {
   const [text, setText] = React.useState('');
   const [img, setImg] = React.useState(null);
   const { user, dialogId } = useAppSelector(selectDialogs);
   const { uid } = useAppSelector(selectUser);
+  const navigate = useNavigate();
 
-  const onClickFunction = () => {
+  const onClickFunction = (e) => {
     handleSendMessage(text, img, dialogId, user, uid);
     setDialog(true);
     setText('');
   };
-
+  const toProifle = () => {
+    navigate(`/users/${user.uid}`)
+  }
   if (!user) {
     return;
   }
@@ -28,7 +32,7 @@ const Chat = ({ dialog, setDialog }) => {
     <div className={dialog ? stylesMessages.chat_wrapper_active : stylesMessages.chat_wrapper_none}>
       <div className={stylesMessages.user_info_chat}>
         <div>
-          <img src={user.photoURL} width={40} />
+          <img onClick={()=>toProifle()} src={user.photoURL} width={40} />
           <span>{user.username}</span>
         </div>
         <img
@@ -54,10 +58,11 @@ const Chat = ({ dialog, setDialog }) => {
         <input
           className={stylesMessages.input_text}
           type="text"
+          value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button onClick={onClickFunction}>
-          <img src={icon_send} width={30} />
+        <button onClick={(e)=>onClickFunction(e)}>
+          Send
         </button>
       </div>
     </div>

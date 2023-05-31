@@ -10,6 +10,7 @@ import Header from './Header/Header';
 import { useAuth } from './hooks/use-auth';
 import ProfileUser from './Profile/ProfileUser';
 import NotFound from './NotFound/NotFound';
+import EditProfile from './Profile/EditProfile';
 
 const App = () => {
   const { isAuth } = useAuth();

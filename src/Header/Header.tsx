@@ -46,9 +46,6 @@ const Header = () => {
         <Link to={'/news'}>
           <img src={news_logo} width={30} /> News
         </Link>
-        <Link to={'/settings'}>
-          <img src={settings_logo} width={30} /> Settings
-        </Link>
       </nav>
       <button onClick={onClickRemove}>Logout from {username}</button>
     </div>
