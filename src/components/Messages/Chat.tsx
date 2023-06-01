@@ -1,13 +1,13 @@
 import React from 'react';
 import stylesMessages from './Dialogs.module.scss';
 import Messages from './Messages';
-import { useAppSelector } from '../Redux/store';
-import { selectDialogs } from '../Redux/dialogs/dialogsSlice';
-import { selectUser } from '../Redux/user/userSlice';
+import { useAppSelector } from '../../Redux/store';
+import { selectDialogs } from '../../Redux/dialogs/dialogsSlice';
+import { selectUser } from '../../Redux/user/userSlice';
 import icon_close from '../assets/icon-close.png';
 import icon_share from '../assets/icon-share.png';
 import icon_send from '../assets/icon-send.png';
-import { handleSendMessage } from '../api';
+import { handleSendMessage } from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Chat = ({ dialog, setDialog }) => {
@@ -23,8 +23,8 @@ const Chat = ({ dialog, setDialog }) => {
     setText('');
   };
   const toProifle = () => {
-    navigate(`/users/${user.uid}`)
-  }
+    navigate(`/users/${user.uid}`);
+  };
   if (!user) {
     return;
   }
@@ -32,7 +32,7 @@ const Chat = ({ dialog, setDialog }) => {
     <div className={dialog ? stylesMessages.chat_wrapper_active : stylesMessages.chat_wrapper_none}>
       <div className={stylesMessages.user_info_chat}>
         <div>
-          <img onClick={()=>toProifle()} src={user.photoURL} width={40} />
+          <img onClick={() => toProifle()} src={user.photoURL} width={40} />
           <span>{user.username}</span>
         </div>
         <img
@@ -61,9 +61,7 @@ const Chat = ({ dialog, setDialog }) => {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button onClick={(e)=>onClickFunction(e)}>
-          Send
-        </button>
+        <button onClick={(e) => onClickFunction(e)}>Send</button>
       </div>
     </div>
   );

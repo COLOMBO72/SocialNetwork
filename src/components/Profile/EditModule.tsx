@@ -1,10 +1,10 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../Redux/store';
-import { selectUser, signIn } from '../Redux/user/userSlice';
+import { useAppDispatch, useAppSelector } from '../../Redux/store';
+import { selectUser, signIn } from '../../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
 import ButtonForm from '../Forms/button';
 import { doc, collection, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { updateProfile } from 'firebase/auth';
 import icon_file from '../assets/icon-fileload.png';

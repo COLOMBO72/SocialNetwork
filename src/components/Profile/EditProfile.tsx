@@ -1,6 +1,6 @@
 import React from 'react';
-import { useAppSelector } from '../Redux/store';
-import { selectUser } from '../Redux/user/userSlice';
+import { useAppSelector } from '../../Redux/store';
+import { selectUser } from '../../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
 import ButtonForm from '../Forms/button';
 import null_ava from '../assets/null_ava.jpg';

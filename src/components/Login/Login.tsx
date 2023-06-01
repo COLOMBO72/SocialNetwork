@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../Redux/store';
+import { useAppDispatch } from '../../Redux/store';
 import FormLogin from './FormLogin';
 import { useAuth } from '../hooks/use-auth';
 import stylesLogin from './Login.module.scss';
 import Preloader from '../Loading/Preloader';
-import { onHandleLogin } from '../api';
+import { onHandleLogin } from '../../api';
 
 const Login: React.FC = () => {
   const [loading, setLoading] = React.useState(false);

@@ -1,10 +1,10 @@
 import React from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import stylesUsers from './Users.module.scss';
 import UserBlock from './UserBlock';
-import { useAppSelector } from '../Redux/store';
-import { selectUser } from '../Redux/user/userSlice';
+import { useAppSelector } from '../../Redux/store';
+import { selectUser } from '../../Redux/user/userSlice';
 import Preloader from '../Loading/Preloader';
 import Search from '../Forms/Search';
 

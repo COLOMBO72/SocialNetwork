@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import stylesProfile from './Profile.module.scss';
 import Preloader from '../Loading/Preloader';
 import NotFound from '../NotFound/NotFound';

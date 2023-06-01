@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../Redux/store';
-import { useAppSelector } from '../Redux/store';
+import { useAppDispatch } from '../../Redux/store';
+import { useAppSelector } from '../../Redux/store';
 import { useAuth } from '../hooks/use-auth';
-import { selectUser } from '../Redux/user/userSlice';
+import { selectUser } from '../../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
 import EditProfile from './EditProfile';
 import ButtonForm from '../Forms/button';

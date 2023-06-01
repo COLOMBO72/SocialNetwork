@@ -1,12 +1,12 @@
 import React from 'react';
 import stylesHeader from './Header.module.scss';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../Redux/store';
-import { selectUser } from '../Redux/user/userSlice';
-import { signOut } from '../Redux/user/userSlice';
+import { useAppDispatch, useAppSelector } from '../../Redux/store';
+import { selectUser } from '../../Redux/user/userSlice';
+import { signOut } from '../../Redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import Preloader from '../Loading/Preloader';
-import { setLogout } from '../Redux/dialogs/dialogsSlice';
+import { setLogout } from '../../Redux/dialogs/dialogsSlice';
 import profile_logo from '../assets/profile_logo_navbar.png';
 import settings_logo from '../assets/settings_logo_navbar.png';
 import messages_logo from '../assets/messages_logo_navbar.png';

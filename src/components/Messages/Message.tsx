@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import stylesMessages from './Dialogs.module.scss';
-import { useAppSelector } from '../Redux/store';
-import { selectDialogs } from '../Redux/dialogs/dialogsSlice';
-import { selectUser } from '../Redux/user/userSlice';
+import { useAppSelector } from '../../Redux/store';
+import { selectDialogs } from '../../Redux/dialogs/dialogsSlice';
+import { selectUser } from '../../Redux/user/userSlice';
 import { Timestamp, doc } from 'firebase/firestore';
 import moment from 'moment';
 
@@ -10,9 +10,8 @@ const Message = ({ message }) => {
   const { user } = useAppSelector(selectDialogs);
   const { username, photoURL, uid } = useAppSelector(selectUser);
   const ref = useRef<HTMLDivElement>();
-  const date = new Timestamp(message.date.seconds,message.date.nanoseconds);
-  const ff = date.toDate().toLocaleTimeString()
-
+  const date = new Timestamp(message.date.seconds, message.date.nanoseconds);
+  const ff = date.toDate().toLocaleTimeString();
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
