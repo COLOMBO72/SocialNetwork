@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  height: 100%;
   border-radius: 10px;
   background-color: white;
   width: 100%;
@@ -158,7 +157,27 @@
     border-radius: 10px;
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
+    form{
+      div{
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        padding: 10px;
+        img{
+          cursor: pointer;
+          background-color: rgba(77, 182, 77, 0.712);
+          margin: 10px;
+          border-radius: 10px;
+          transition: 0.2s;
+          &:hover{
+            background-color: rgba(113, 236, 113, 0.712);
+            transition: 0.2s;
+          }
+        }
+      }
+    }
   }
   .profile_edit_input{
     border: 0px;

@@ -50,55 +50,72 @@ export const EditModule = ({ currentUser, setChange }) => {
   const onChangeData = async (e) => {
     setLoading(true);
     e.preventDefault();
-    const file = e.target[5].files[0] ? e.target[5].files[0] : photoURL;
-    const storage = getStorage();
-    const storageRef = ref(storage, nameE);
-    const uploadTask = uploadBytesResumable(storageRef, file);
     if (refInput.current.value) {
-      await uploadBytesResumable(storageRef, file).then(() => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          try {
-            await updateProfile(currentUser, {
-              displayName: nameE,
-              photoURL: downloadURL,
-            });
-            await updateDoc(doc(collection(db, 'users'), `${currentUser.uid}`), {
-              username: nameE,
-              location: locationE,
-              aboutMe: aboutMeE,
-              photoURL: downloadURL,
-              status: statusE,
-              YO: yoE,
-              uid: uid,
-              email: email,
-              token: token,
-            });
-          } catch (error) {
-            console.error();
-          }
-          dispatch(
-            signIn({
-              username: nameE,
-              location: locationE,
-              aboutMe: aboutMeE,
-              photoURL: downloadURL,
-              status: statusE,
-              YO: yoE,
-              uid: uid,
-              email: email,
-              token: token,
-            }),
-          );
-          setChange(false);
-          setLoading(false);
+      try {
+        await updateProfile(currentUser, {
+          displayName: nameE,
+          photoURL: photoURL,
         });
-      });
+        await updateDoc(doc(collection(db, 'users'), `${currentUser.uid}`), {
+          username: nameE,
+          location: locationE,
+          aboutMe: aboutMeE,
+          photoURL: photoURL,
+          status: statusE,
+          YO: yoE,
+          uid: uid,
+          email: email,
+          token: token,
+        });
+      } catch (error) {
+        console.error();
+      }
+      dispatch(
+        signIn({
+          username: nameE,
+          location: locationE,
+          aboutMe: aboutMeE,
+          photoURL: photoURL,
+          status: statusE,
+          YO: yoE,
+          uid: uid,
+          email: email,
+          token: token,
+        }),
+      );
+      setChange(false);
+      setLoading(false);
     } else {
       setChange(false);
       setLoading(true);
       alert('Field empty');
     }
   };
+
+  const updatePhoto = async (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    const storage = getStorage();
+    const storageRef = ref(storage, nameE);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    await uploadBytesResumable(storageRef, file).then(() => {
+      getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+        if (file) {
+          try {
+            await updateProfile(currentUser, {
+              displayName: nameE,
+              photoURL: downloadURL,
+            });
+          } catch (error) {
+            console.error();
+          }
+        } else {
+          alert('Chose image');
+        }
+      });
+    });
+  };
+
   if (loading) {
     return <Preloader />;
   }
@@ -160,18 +177,21 @@ export const EditModule = ({ currentUser, setChange }) => {
               ref={refInput}
             />
           </div>
-          <div className={stylesProfile.choseImage}>
-            <span>Load your photo</span>
-            <input style={{ display: 'none' }} type="file" id={'file'} />
-            <label htmlFor="file">
-              <img src={icon_file} />
-            </label>
-          </div>
           <div className={stylesProfile.profile_edit_buttons}>
             <ButtonForm title={'Save'} CallFunction={() => {}} />
           </div>
         </form>
         <div className={stylesProfile.profile_edit_buttons2}>
+          <form className={stylesProfile.choseImage} onSubmit={updatePhoto}>
+            <div>
+              <span>Chose photo</span>
+              <input style={{ display: 'none' }} type="file" id={'file'} />
+              <label htmlFor="file">
+                <img src={icon_file} />
+              </label>
+              <button>Save photo</button>
+            </div>
+          </form>
           <ButtonForm title={'Back'} CallFunction={() => setChange(false)} />
           <button onClick={() => setModal(true)} className={stylesProfile.deleteAcc}>
             Delete account
