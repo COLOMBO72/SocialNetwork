@@ -32,8 +32,8 @@ const Users = React.memo(() => {
       <span>Users list</span>
       <Search />
       <div>
-        {users.map((s, i) => {
-          return <UserBlock key={i} {...s} />;
+        {users.map((user, i) => {
+          return <UserBlock key={i} {...user} />;
         })}
       </div>
     </div>

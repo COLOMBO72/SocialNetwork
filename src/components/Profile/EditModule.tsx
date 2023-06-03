@@ -3,37 +3,47 @@ import { useAppDispatch, useAppSelector } from '../../Redux/store';
 import { selectUser, signIn } from '../../Redux/user/userSlice';
 import stylesProfile from './Profile.module.scss';
 import ButtonForm from '../Forms/button';
-import { doc, collection, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { updateProfile } from 'firebase/auth';
+import { doc, collection, updateDoc, deleteDoc } from 'firebase/firestore';
+import { db, storage } from '../../firebase';
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
+import { deleteUser, updateProfile } from 'firebase/auth';
 import icon_file from '../assets/icon-fileload.png';
 import Preloader from '../Loading/Preloader';
+import { signOut } from '../../Redux/user/userSlice';
 
-export const ModalDelete = ({ setModal }) => {
-  const onDeleteAccount = async () => {
-    setModal(false);
-    // await deleteDoc(doc(db, 'users', currentUser.uid));
-    // await deleteDoc(doc(db, 'userDialogs', currentUser.uid));
-    // await deleteObject(ref(storage, currentUser.displayName));
-    // await deleteUser(currentUser);
-    // dispatch(signOut());
-  };
+// export const ModalDelete = ({ setModal }) => {
+//   const auth = getAuth();
+//   const dispatch = useAppDispatch();
+//   const currentUser = auth.currentUser;
+//   const onDeleteAccount = async () => {
+//     setModal(false);
+//     await deleteDoc(doc(db, 'users', currentUser.uid));
+//     await deleteDoc(doc(db, 'userDialogs', currentUser.uid));
+//     await deleteObject(ref(storage, currentUser.displayName));
+//     await deleteUser(currentUser);
+//     dispatch(signOut());
+//   };
 
-  return (
-    <div className={stylesProfile.delete_wrap}>
-      <input name="pass" type="password" />
-      <label htmlFor="pass">Confirm your password</label>
-      <ButtonForm title={'Confirm'} CallFunction={onDeleteAccount} />
-    </div>
-  );
-};
+//   return (
+//     <div className={stylesProfile.delete_wrap}>
+//       <input name="pass" type="password" />
+//       <label htmlFor="pass">Confirm your password</label>
+//       <ButtonForm title={'Confirm'} CallFunction={onDeleteAccount} />
+//     </div>
+//   );
+// };
 
 export const EditModule = ({ currentUser, setChange }) => {
   const { username, location, aboutMe, photoURL, status, YO, uid, email, token } =
     useAppSelector(selectUser);
   const [loading, setLoading] = React.useState(false);
-  const [modal, setModal] = React.useState(false);
+  // const [modal, setModal] = React.useState(false);
   const [nameE, setName] = React.useState(username);
   const [statusE, setStatus] = React.useState(status);
   const [locationE, setLocation] = React.useState(location);
@@ -46,6 +56,14 @@ export const EditModule = ({ currentUser, setChange }) => {
   // const refPhoto = React.useRef<HTMLInputElement>();
   const refInput = React.useRef<HTMLInputElement>();
   const dispatch = useAppDispatch();
+
+  const onDeleteAccount = async () => {
+    await deleteDoc(doc(db, 'users', currentUser.uid));
+    await deleteDoc(doc(db, 'userDialogs', currentUser.uid));
+    await deleteObject(ref(storage, currentUser.displayName));
+    await deleteUser(currentUser);
+    dispatch(signOut());
+  };
 
   const onChangeData = async (e) => {
     setLoading(true);
@@ -121,9 +139,10 @@ export const EditModule = ({ currentUser, setChange }) => {
   }
   if (!currentUser) {
     return <div>Error to get user, please update page</div>;
-  } else if (modal) {
-    return <ModalDelete setModal={setModal} />;
   }
+  // } else if (modal) {
+  //   return <ModalDelete setModal={setModal} />;
+  // }
   return (
     <>
       <div className={stylesProfile.edit_wrapper}>
@@ -193,7 +212,7 @@ export const EditModule = ({ currentUser, setChange }) => {
             </div>
           </form>
           <ButtonForm title={'Back'} CallFunction={() => setChange(false)} />
-          <button onClick={() => setModal(true)} className={stylesProfile.deleteAcc}>
+          <button onClick={onDeleteAccount} className={stylesProfile.deleteAcc}>
             Delete account
           </button>
         </div>

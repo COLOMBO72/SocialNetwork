@@ -5,8 +5,13 @@ import { db } from '../../firebase';
 import stylesProfile from './Profile.module.scss';
 import Preloader from '../Loading/Preloader';
 import NotFound from '../NotFound/NotFound';
+import { useAppSelector } from '../../Redux/store';
+import { selectUser } from '../../Redux/user/userSlice';
+import { handleAddFriend, handleDeleteFriend } from '../../api';
 
 const ProfileUser: React.FC = () => {
+  const { uid } = useAppSelector(selectUser);
+  const [friend, setFriend] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [showMore, setShowMore] = React.useState(false);
   const [showFullImg, setShowFullImg] = React.useState(false);
@@ -17,9 +22,17 @@ const ProfileUser: React.FC = () => {
     status: string;
     YO: string;
     aboutMe: string;
+    uid: string;
     //@ts-ignore
   }>({});
   const URL = useParams();
+
+  const friendAdd = async () => {
+    handleAddFriend(uid, user);
+  };
+  const friendDelete = async () => {
+    handleDeleteFriend(uid, user);
+  };
 
   React.useEffect(() => {
     const docSnap = async () => {
@@ -28,6 +41,18 @@ const ProfileUser: React.FC = () => {
       if (snap.exists()) {
         //@ts-ignore
         setUser(snap.data());
+        const snapfriend = await getDoc(doc(db, 'userFriends', uid));
+        if (snapfriend.exists()) {
+          Object.entries(snapfriend.data()).map((user) => {
+            if (user[0] == URL.uid) {
+              setFriend(true);
+            } else {
+              setFriend(false);
+            }
+          });
+        } else {
+          console.error();
+        }
       } else {
         console.error();
         setLoading(false);
@@ -36,7 +61,6 @@ const ProfileUser: React.FC = () => {
     };
     docSnap();
   }, []);
-  console.log(user);
 
   if (loading) {
     return <Preloader />;
@@ -75,9 +99,14 @@ const ProfileUser: React.FC = () => {
             </div>
           </div>
           <div className={stylesProfile.buttons}>
-            <button>Add to friends</button>
-            <button>Delete from friends</button>
-            <button>Send message</button>
+            {friend ? (
+              <div>
+                <button onClick={friendDelete}>Delete from friends</button>
+                <button>Send message</button>
+              </div>
+            ) : (
+              <button onClick={friendAdd}>Add to friends</button>
+            )}
           </div>
         </div>
         <div className={stylesProfile.photos_block}>photos here</div>

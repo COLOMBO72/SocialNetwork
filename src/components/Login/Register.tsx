@@ -19,7 +19,7 @@ const Register: React.FC = () => {
     const locationUser = e.target[3].value;
     const old = e.target[4].value;
     const file = e.target[5].files[0];
-    onHandleRegister(pass, name, file, email, locationUser, old, navigate, setLoading);
+    onHandleRegister(pass, name, file, email, locationUser, old, navigate);
     setLoading(false);
   };
   if (loading) {

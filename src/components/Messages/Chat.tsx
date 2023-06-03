@@ -8,7 +8,7 @@ import icon_close from '../assets/icon-close.png';
 import icon_share from '../assets/icon-share.png';
 import icon_send from '../assets/icon-send.png';
 import { handleSendMessage } from '../../api';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const Chat = ({ dialog, setDialog }) => {
   const [text, setText] = React.useState('');
@@ -22,7 +22,7 @@ const Chat = ({ dialog, setDialog }) => {
     setDialog(true);
     setText('');
   };
-  const toProifle = () => {
+  const toProfile = () => {
     navigate(`/users/${user.uid}`);
   };
   if (!user) {
@@ -32,7 +32,7 @@ const Chat = ({ dialog, setDialog }) => {
     <div className={dialog ? stylesMessages.chat_wrapper_active : stylesMessages.chat_wrapper_none}>
       <div className={stylesMessages.user_info_chat}>
         <div>
-          <img onClick={() => toProifle()} src={user.photoURL} width={40} />
+          <img onClick={() => toProfile()} src={user.photoURL} width={40} />
           <span>{user.username}</span>
         </div>
         <img

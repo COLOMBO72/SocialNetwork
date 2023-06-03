@@ -11,6 +11,7 @@ import { useAuth } from './components/hooks/use-auth';
 import ProfileUser from './components/Profile/ProfileUser';
 import NotFound from './components/NotFound/NotFound';
 import EditProfile from './components/Profile/EditProfile';
+import Friends from './components/Friends/Friends';
 
 const App = () => {
   const { isAuth } = useAuth();
@@ -26,6 +27,8 @@ const App = () => {
           <Route path="/users" element={<Users />} />
           <Route path="/users/:uid" element={<ProfileUser />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/messages/:combinedId" element={<Messages />} />
+          <Route path="/friends" element={<Friends />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

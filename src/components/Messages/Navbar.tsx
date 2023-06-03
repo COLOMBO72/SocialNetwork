@@ -9,7 +9,7 @@ import { selectUser } from '../../Redux/user/userSlice';
 import { setUserDialog } from '../../Redux/dialogs/dialogsSlice';
 import icon_close from '../assets/icon-close.png';
 import { getAuth } from 'firebase/auth';
-import { useSubmit } from 'react-router-dom';
+import { Link, useParams, useSubmit } from 'react-router-dom';
 
 type userDialog = {
   username: string;
@@ -18,7 +18,7 @@ type userDialog = {
 };
 
 const Navbar = ({ dialog, setDialog }) => {
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
   const [chats, setChats] = React.useState([]);
   const { uid } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -31,26 +31,33 @@ const Navbar = ({ dialog, setDialog }) => {
   };
 
   const deleteDialog = async (obj) => {
-    //   const combinedId = obj.uid + currentUser.uid;
-    //   await deleteDoc(doc(db, 'dialogs', combinedId));
-    //   await updateDoc(doc(db,'userDialogs', currentUser.uid), {
-    //     combinedId: deleteField()
-    // });
+    const combinedId = obj.uid + currentUser.uid;
+    await deleteDoc(doc(db, 'dialogs', combinedId));
+    await updateDoc(doc(db, 'userDialogs', currentUser.uid), {
+      combinedId: deleteField(),
+    });
   };
 
   React.useEffect(() => {
+    setLoading(true);
     const getChats = () => {
-      setLoading(true);
       const getUD = onSnapshot(doc(db, 'userDialogs', uid), (doc) => {
-        //@ts-ignore
-        setChats(doc.data());
+        if (!doc.data()) {
+          console.error();
+          alert('Error to get chats');
+          setLoading(false);
+        } else {
+          //@ts-ignore
+          setChats(doc.data());
+          setLoading(false);
+          console.log(doc.data());
+        }
       });
       return () => {
         getUD();
       };
     };
     uid && getChats();
-    setLoading(false);
   }, [uid]);
   if (loading) {
     return <Preloader />;
@@ -67,20 +74,24 @@ const Navbar = ({ dialog, setDialog }) => {
         ?.sort((a, b) => b[1].date - a[1].date)
         .map((chat) => (
           <div key={chat[0]} className={stylesMessages.user_block}>
-            <img
-              onClick={() => getUserDialog(chat[1].userInfo)}
-              className={stylesMessages.avatar}
-              src={chat[1].userInfo.photoURL}
-            />
-            <div
-              onClick={() => getUserDialog(chat[1].userInfo)}
-              className={stylesMessages.user_info_block}
-            >
-              <span>{chat[1].userInfo.username}</span>
-              <div className={stylesMessages.lastmessage}>
-                <div>{chat[1].lastMessage?.text}</div>
+            <Link to={`${chat[1].userInfo.uid + uid}`}>
+              <img
+                onClick={() => getUserDialog(chat[1].userInfo)}
+                className={stylesMessages.avatar}
+                src={chat[1].userInfo.photoURL}
+              />
+            </Link>
+            <Link to={`${chat[1].userInfo.uid + uid}`}>
+              <div
+                onClick={() => getUserDialog(chat[1].userInfo)}
+                className={stylesMessages.user_info_block}
+              >
+                <span>{chat[1].userInfo.username}</span>
+                <div className={stylesMessages.lastmessage}>
+                  <div>{chat[1].lastMessage?.text}</div>
+                </div>
               </div>
-            </div>
+            </Link>
             <img
               onClick={() => deleteDialog(chat[1].userInfo)}
               className={stylesMessages.deleteDialog}

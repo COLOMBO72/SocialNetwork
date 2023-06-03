@@ -12,6 +12,7 @@ import settings_logo from '../assets/settings_logo_navbar.png';
 import messages_logo from '../assets/messages_logo_navbar.png';
 import users_logo from '../assets/users_logo_navbar.png';
 import news_logo from '../assets/news_logo_navbar.png';
+import friends_logo from '../assets/friends_logo.png';
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -37,6 +38,10 @@ const Header = () => {
 
         <Link to={'/messages'}>
           <img src={messages_logo} width={30} /> Messages
+        </Link>
+
+        <Link to={'/friends'}>
+          <img src={friends_logo} width={30} /> Friends
         </Link>
 
         <Link to={'/users'}>

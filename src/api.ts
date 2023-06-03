@@ -1,6 +1,6 @@
 import { createUser, db, signInUser } from './firebase';
 import './firebase';
-import { collection, getDoc, setDoc } from 'firebase/firestore';
+import { collection, deleteField, getDoc, setDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 import { getCurrentUserId } from './Redux/dialogs/dialogsSlice';
 import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
@@ -150,16 +150,7 @@ export const onHandleLogin = async (
   }
 };
 
-export const onHandleRegister = async (
-  pass,
-  name,
-  file,
-  email,
-  locationUser,
-  old,
-  navigate,
-  setLoading,
-) => {
+export const onHandleRegister = async (pass, name, file, email, locationUser, old, navigate) => {
   const usersRef = collection(db, 'users');
   const storage = getStorage();
   const storageRef = ref(storage, name);
@@ -189,16 +180,41 @@ export const onHandleRegister = async (
             token: res.user.refreshToken,
           });
           await setDoc(doc(db, 'userDialogs', res.user.uid), {});
+          await setDoc(doc(db, 'userFriends', res.user.uid), {});
+          await setDoc(doc(db, 'userProfilePosts', res.user.uid), {});
           navigate('/login');
-          setLoading(false);
         } catch (error) {
           console.error();
-          setLoading(false);
         }
       });
     });
   } catch (error) {
     console.error();
-    setLoading(false);
+  }
+};
+
+export const handleAddFriend = async (currentUseruid, user) => {
+  if (currentUseruid != user.uid) {
+    await updateDoc(doc(db, 'userFriends', currentUseruid), {
+      [user.uid + '.userInfo']: {
+        uid: user.uid,
+        username: user.username,
+        photoURL: user.photoURL,
+      },
+      [user.uid + '.date']: serverTimestamp(),
+    });
+  } else {
+    alert('You cant add yourself!');
+  }
+};
+
+export const handleDeleteFriend = async (currentUseruid, user) => {
+  const snap = await getDoc(doc(db, 'userFriends', currentUseruid));
+  if (snap.data()) {
+    await updateDoc(doc(db, 'userFriends', currentUseruid), {
+      [user.uid]: deleteField(),
+    });
+  } else {
+    console.error();
   }
 };
